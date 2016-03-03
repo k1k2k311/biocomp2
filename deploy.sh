@@ -1,3 +1,3 @@
-#!/bin/perl
+#!/bin/sh
 
-print "test"
+cp frontend/src/cgi/hello.pl ~/WWW/cgi-bin/
