@@ -9,3 +9,5 @@ We have set the lucidchart, skype, and mail for easy comunication between the me
 to run hello.pl locally
 cd frontend/src/cgi
 PERL5LIB=../../../middle/src/perl/:../../../database/src/perl/   perl hello.pl
+
+genes that are missing gene name will not be loaded into our database
