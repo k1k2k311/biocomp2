@@ -1,5 +1,7 @@
-CREATE DATABASE compubio2;
-USE compubio2;
+-- CREATE DATABASE compbio2;
+-- USE compbio2;
+
+USE ri001;
 
 
 DROP TABLE chromosome;
