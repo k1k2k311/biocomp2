@@ -11,6 +11,9 @@ my $file = 'chrom_CDS_16';
 my $locus = '';
 my $version = '';
 my $accession = '';
+my $accession_version = '';
+my $gene_ID = '';
+
 
 my @genebank = file_to_array($file);
 
@@ -34,18 +37,25 @@ for my $gb_line (@genebank) {
 		$gb_line =~ s/^VERSION\s*//;
 		$version = $gb_line;
 		#print $version;
-		if ( $version =~ m/^([A-Za-z0-9].*)\sGI:(.*\n)/ ) {
+		if ( $version =~ m/^([A-Za-z0-9].*)\s*GI:(.*\n)/ ) {
 			
-		print "VERSION  ", $1, "\n\n";
-		print "GENE_ID  ", $2, "\n\n";
+			#print "VERSION  ", $1, "\n\n";
+			#print "GENE_ID  ", $2, "\n\n";
+			$accession_version = $1;
+			$gene_ID = $2;
+			
+			
 		}
 			
 	}
-
+	
 
 
 }
 
+print "###########  \n";
+print $accession_version;
+print $gene_ID;
 
 
 
@@ -74,6 +84,8 @@ sub file_to_array {
 
 
 }
+
+
 
 
 
