@@ -66,9 +66,9 @@ for my $gb_line (@genebank) {
 		#print $prim_key, "\n";
 		
 		if (defined $dbh) {
-			my $sql = "INSERT INTO chromosome (prim_key,gene_ID,locus,accession,acc_ver) VALUES ('$prim_key','$gene_ID','$locus','$accession','$acc_ver')";
+			my $sql = "INSERT INTO chromosome16_genes (prim_key,gene_ID,locus,accession,acc_ver) VALUES ('$prim_key','$gene_ID','$locus','$accession','$acc_ver')";
 			$dbh->do($sql);
-			print "INSERT INTO chromosome  ", $prim_key, "\n ", $gene_ID, "\n ",$locus, "\n ",$accession, "\n ",$acc_ver, "\n\n";
+			print "INSERT INTO chromosome16_genes  ", $prim_key, "\n ", $gene_ID, "\n ",$locus, "\n ",$accession, "\n ",$acc_ver, "\n\n";
 		
 		}
 	
