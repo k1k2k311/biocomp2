@@ -13,4 +13,9 @@ sub get_all_genes {
   return %gene_names;
 }
 
+sub get_genes {
+	my %genes = Biocomp2::DataAccess::get_genes();
+	return %genes;
+}
+
 1;
