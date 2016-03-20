@@ -3,12 +3,6 @@ use strict;
 use warnings;
 use DBI;
 
-#my $cmd = 'wget http://www.bioinf.org.uk/teaching/bbk/biocomp2/data/chrom_CDS_16.gz';
-#system($cmd);
-
-my $cmd = 'gunzip chrom_CDS_16.gz';
-system($cmd);
-
 
 # Open data file 
 my $data_file = "chrom_CDS_16";
@@ -23,13 +17,35 @@ my $locus = '';
 # Assign input record separator to the special entry divider // followed by new line \n
 $/ = "//\n";
 
-while ( my $gb_file_line = <DATA>){
+while ( my $gb_line = <DATA>){
 
-	if($gb_file_line =~ /^LOCUS/){
-		$gb_file_line =~ s/^LOCUS\s*//;
-		$locus = $gb_file_line;
+	if($gb_line =~ /^LOCUS/){
+		$gb_line =~ s/^LOCUS\s*//;
+		$locus = $gb_line;
 		print $locus;
 	
+	}
+	elsif($gb_line =~ /^ACCESSION/) {
+		$gb_line =~ s/^ACCESSION\s*//;
+		chomp($accession = $gb_line);
+		#print $accession;
+		
+		
+	}	
+	elsif($gb_line =~ /^VERSION/) {
+		$gb_line =~ s/^VERSION\s*//;
+		$version = $gb_line;
+		#print $version;
+		if ( $version =~ m/^([A-Za-z0-9].*)\s*GI:(.*\n)/ ) {
+			
+			#print "VERSION  ", $1, "\n\n";
+			#print "GENE_ID  ", $2, "\n\n";
+			chomp($acc_ver = $1);
+			chomp($gene_ID = $2);
+			
+			
+		}
+			
 	}
 	
 	

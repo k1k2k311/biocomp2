@@ -44,34 +44,54 @@ for my $gb_line (@genebank) {
 			#print "VERSION  ", $1, "\n\n";
 			#print "GENE_ID  ", $2, "\n\n";
 			$accession_version = $1;
+			chomp($accession_version);
 			$gene_ID = $2;
+			chomp($gene_ID);
 			
 			
 		}
 			
 	}
+	elsif($gb_line
 	elsif($gb_line =~ /^\/\/\n/) {
 		$prim_key ++;
 		print $prim_key, "\n";
-		my @scalar = '';
-		@scalar = $accession_version, $locus;
-		$annotation{$gene_ID} = @scalar;
 		
-	
+		my @values = ($prim_key, $accession_version, $locus, );
+		$annotation{$gene_ID} = [ @values ];
+		
 	}
 
 
 }
 
 #print "###########  \n";
-print $accession_version;
-print $gene_ID;
+#print $accession_version;
+#print $gene_ID;
 
 # Print the fields
-foreach my $key (keys %annotation) {
-print "###########    ", $key, "\n";
-print $annotation{$key};
-}
+# foreach my $key (keys %annotation) {
+# print "###########    ", $key, "\n";
+# print $annotation{$key};
+# }
+# 
+# foreach my $key (keys %annotation)
+# {
+# 	#print "key $key value $genes{$key} \n";
+# 	#print "key $key value1 @{ $genes{$key} } \n"
+# 	my $prim_key = @{ $annotation{$key} }[0];
+# 	my $acc_ver = @{ $annotation{$key} }[1];
+# 	my $locus = @{ $annotation{$key} }[2];
+# 	print "KEY ········ $key .......\n";
+# 	print $prim_key, "\n";
+# 	print $acc_ver, "\n";
+# 	print $locus, "\n";  
+# 	
+# 	print "@@@@@@@@@@@@@@@\n";  
+# 
+# }
+
+
 
 ####################################################################			
 ########### Subroutines
