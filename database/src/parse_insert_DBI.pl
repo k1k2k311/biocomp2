@@ -61,6 +61,9 @@ for my $gb_line (@genebank) {
 		}
 			
 	}
+	
+	
+	
 	elsif($gb_line =~ /^\/\/\n/) {
 		$prim_key ++;
 		#print $prim_key, "\n";
@@ -102,7 +105,7 @@ sub file_to_array {
 	# get file name and initialise variable
 	my ($fin_name) = @_;
 	my @fin =();
-	open (DATA, $fin_name) or die "\nCan't open fin_name, closing!!! \n";
+	open (DATA, $fin_name) or die "\nCan't open $fin_name, closing!!! \n";
 
 	@fin = <DATA>;
 	

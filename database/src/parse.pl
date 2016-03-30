@@ -17,6 +17,8 @@ my $locus = '';
 # Assign input record separator to the special entry divider // followed by new line \n
 $/ = "//\n";
 
+my $entry = <DATA>;
+
 while ( my $gb_line = <DATA>){
 
 	if($gb_line =~ /^LOCUS/){
