@@ -35,18 +35,61 @@ my $file = open_file($data_file);
 while ($entry = get_entry($file) ) {
 
 	($annotation, $features, $sequence) = split_entry($entry);
-	#print "Annotation     ", $annotation ,"\n";
-	#print $entry;
+
 	print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
 	print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n";
 	print $count++, "\n";
 	#print $annotation;
 	#print $features;
-	print $sequence;
+	#print $sequence;
 	
 
 
-}
+	my @annotation = split /^/m, $annotation;			# split to array by start of the line
+	#print "Size: ",scalar @annotation,"\n";
+	#print @annotation;
+	
+	for my $annotation_line (@annotation) {
+
+		if($annotation_line =~ /^LOCUS/) {
+			$annotation_line =~ s/^LOCUS\s*//;
+			chomp(my $locus = $annotation_line);
+			#print $locus;
+		}
+
+	
+		elsif($annotation_line =~ /^ACCESSION/) {
+			$annotation_line =~ s/^ACCESSION\s*//;
+			chomp(my $accession = $annotation_line);
+			#print $accession;
+		
+		
+		}	
+		elsif($annotation_line =~ /^VERSION/) {
+			$annotation_line =~ s/^VERSION\s*//;
+			my $version = $annotation_line;
+			#print $version;
+			if ( $version =~ m/^([A-Za-z0-9].*)\s*GI:(.*\n)/ ) {
+			
+				#print "VERSION  ", $1, "\n\n";
+	
+				chomp(my $acc_ver = $1);
+				chomp(my $gene_ID = $2);
+				print "GeneID	", $gene_ID, "\n";
+			
+			}	
+		}
+	
+
+	} # For annotation
+	
+	
+
+
+		
+	
+	
+} 
 
 
 
@@ -88,8 +131,8 @@ sub get_entry {
 sub split_entry {
 
 	my $entry = $_[0];
-	my $n = scalar(@_);
-	print "SCALAR     ", $n;
+	#my $n = scalar(@_);
+	#print "SCALAR     ", $n;
 	my $annotation = '';
 	my $feat = '';
 	my $seq = '';
@@ -103,6 +146,21 @@ sub split_entry {
 	
 	return($annotation, $features, $seq);
 
+
+
+}
+
+sub file_to_array {
+
+	# get file name and initialise variable
+	my ($fin_name) = @_;
+	my @fin =();
+	open (DATA, $fin_name) or die "\nCan't open $fin_name, closing!!! \n";
+
+	@fin = <DATA>;
+	
+	close DATA;
+	return @fin;
 
 
 }
