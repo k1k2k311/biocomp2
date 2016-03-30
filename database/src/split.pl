@@ -27,16 +27,23 @@ my $annotation = '';
 my $features = '';
 my $sequence = '';
 
-
+my $count = 0;
 
 my $file = open_file($data_file);
 
 
-while ( $entry = get_entry($file)) {
+while ($entry = get_entry($file) ) {
 
-	#($annotation, $sequence) = split_entry($entry);
+	($annotation, $features, $sequence) = split_entry($entry);
 	#print "Annotation     ", $annotation ,"\n";
-	print $entry;
+	#print $entry;
+	print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
+	print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n";
+	print $count++, "\n";
+	#print $annotation;
+	#print $features;
+	print $sequence;
+	
 
 
 }
@@ -80,26 +87,21 @@ sub get_entry {
 
 sub split_entry {
 
-	my $annt = '';
+	my $entry = $_[0];
+	my $n = scalar(@_);
+	print "SCALAR     ", $n;
+	my $annotation = '';
 	my $feat = '';
 	my $seq = '';
 
-	my $entry = @_;
-
 	$entry =~  /^(LOCUS.*)(FEATURES.*)ORIGIN(.*)\/\/\n/s;
 	
-	$annt = $1;
-	$feat = $2;
+	$annotation = $1;
+	$features = $2;
 	$seq = $3;
-	#$seq =~ s/\s*\d*//g;
+	$seq =~ s/\s*\d*//g;
 	
-	
-	#print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
-	#print "Annotation     ", $annt ,"\n";
-	#print "Features       ", $feat ,"\n";
-	#print "Sequence       ", $seq ,"\n";
-	
-	return 	($annt, $feat);
+	return($annotation, $features, $seq);
 
 
 
