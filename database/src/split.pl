@@ -9,9 +9,6 @@ my $data_file = "chrom_CDS_16";
 chomp $data_file;
 
 
-# Initialise variables
-#my ( @acc_version)
-
 
 my $annotation_flag = 0;
 my $seq_flag = 0;
@@ -94,13 +91,10 @@ while ($entry = get_entry($file) ) {
 			$map = $1;
 			#print "Map		", $map, "\n";
 		}
-		else {
-			#print "Map			", $map, "\n";
-		}
 		if($features_line =~ /\/gene="(.*)"/){
 			$gene = $1;
 			#print "GENE		", $gene, "\n"; 
-			#print "Direction", $direction, "\n";		
+				
 		}
 		if($features_line =~ /\/standard_name="(.*)"/){
 			$st_name = $1;
@@ -109,7 +103,7 @@ while ($entry = get_entry($file) ) {
 		}
 		if($features_line =~ /\/codon_start=(\d*)/){
 			$cod_start = $1;
-			#print "Cod Start	", $cod_start, "\n";
+			print "Cod Start	", $cod_start, "\n";
 		}
 		if($features_line =~ /\/product="(.*)"/){
 			$product = $1;
