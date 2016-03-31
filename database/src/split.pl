@@ -37,8 +37,8 @@ while ($entry = get_entry($file) ) {
 	($annotation, $features, $sequence) = split_entry($entry);
 
 	print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
-	print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n";
-	print $count++, "\n";
+	#print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n";
+	#print $count++, "\n";
 	#print $annotation;
 	#print $features;
 	#print $sequence;
@@ -61,7 +61,7 @@ while ($entry = get_entry($file) ) {
 		elsif($annotation_line =~ /^ACCESSION/) {
 			$annotation_line =~ s/^ACCESSION\s*//;
 			chomp(my $accession = $annotation_line);
-			#print $accession;
+			#print "Accesion	", $accession, "\n";
 		
 		
 		}	
@@ -75,7 +75,8 @@ while ($entry = get_entry($file) ) {
 	
 				chomp(my $acc_ver = $1);
 				chomp(my $gene_ID = $2);
-				print "GeneID	", $gene_ID, "\n";
+				#print "GeneID		", $gene_ID, "\n";
+				#print "AccVersion	", $acc_ver, "\n";
 			
 			}	
 		}
@@ -84,9 +85,58 @@ while ($entry = get_entry($file) ) {
 	} # For annotation
 	
 	
-
-
+	foreach (my $features_line = $features){
 		
+		#print $features_line;
+		my ($gene, $map, $st_name, $cod_start, $product, $protID) = 'N/A';
+		
+		if ($features_line =~ /\/map="(.*)"/){
+			$map = $1;
+			#print "Map		", $map, "\n";
+		}
+		else {
+			#print "Map			", $map, "\n";
+		}
+		if($features_line =~ /\/gene="(.*)"/){
+			$gene = $1;
+			#print "GENE		", $gene, "\n"; 
+			#print "Direction", $direction, "\n";		
+		}
+		if($features_line =~ /\/standard_name="(.*)"/){
+			$st_name = $1;
+			#print "Std Name		", $st_name, "\n"; 
+		
+		}
+		if($features_line =~ /\/codon_start=(\d*)/){
+			$cod_start = $1;
+			#print "Cod Start	", $cod_start, "\n";
+		}
+		if($features_line =~ /\/product="(.*)"/){
+			$product = $1;
+			#print "Product  	", $product, "\n";
+		
+		}
+		if($features_line =~ /\/protein_id="(.*)"/){
+			$protID = $1;
+			#print "ProteinID	", $protID, "\n";
+		
+		
+		}
+		elsif($features_line =~ /\/standard_name="(.*)"/){
+		
+		
+		}		
+		
+						
+	} # features
+
+#                      /gene="AXIN1"
+#                      /locus_tag="LA16c-314G4.3-001"
+#                      /standard_name="OTTHUMP00000067405"
+#                      /codon_start=1
+#                      /product="axin 1"
+#                      /protein_id="CAI95600.2"
+    		
 	
 	
 } 
