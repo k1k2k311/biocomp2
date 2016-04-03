@@ -87,60 +87,73 @@ while ($entry = get_entry($file) ) {
 	foreach (my $features_line = $features){
 		
 		
-		#print $features_line;
-		my ($cds, $gene, $map, $st_name, $cod_start, $product, $protID, $aa);
-		my @cordinates;
+		my ($cds, @cordinates, $complement, $gene, $map, $st_name, $cod_start, $product, $protID, $aa);
+
 		
 		if ($features_line =~ /\/map="(.*)"/){
 			$map = $1;
 			#print "Map		", $map, "\n";
 		}
 		if($features_line =~ /CDS\s*(.[^\/]*?)\//m){			# Match everything (including \n) after CDS but / until /
-			#print "1   ", $1, "\n";
-			#print "2   ", $2, "\n";
-			#print "3   ", $3, "\n";
-			#$count++;
+
 			#print "COUNT  ", $count++, "\n";
 			$cds = $1;
-			$cds =~ s/(join)*\s*//g;
+			$cds =~ s/(join)*\s*//g;							# Remove "join", lines and spaces
 			print "CDS  ", $cds, "\n\n";
-			if($cds =~ /^\(*complement(.*)/){
-				print "COMPLEMENT ", $1, "\n";
+			
+			
+			
+			
+			if($cds =~ /^\(*complement(.*)/){					# Split by strand
+				
+				#print "1   ", $1, "\n";
+				#print "2   ", $2, "\n";
+				$complement = 1;											# Assign TRUE to complement
 				print "COMPLEMENT ", $compl_count++, "\n";
-				
-				
-				
-				if ($1 eq "join") {
-					#print "JOIN  	\n";
-					#print "COUNT  	  ", $count++, "\n";
-				}
-				elsif($1 eq "complement") {
-					#print "COUNT  	  ", $count++, "\n";
-				}
-				
-			}
-			else {  
-				print "SENSE      ", $cds, "\n";             
-				print "SENSE      ", $sense_count++, "\n";
-				
-				my @cord = split /,/, $cds;
+
+				my @cord = split /,/, $1;									# Split by ,
 				#print Dumper \@cord, "\n";
 				for my $element (@cord){
 					print "ELEMENT  ", $element, "\n";
-					if ($element =~ /\(*(.*):([0-9]*)\.\.([0-9]*)\)*/){			# Get the number upside to .. and downside to get the join version ($element =~ /\(*(.*):([0-9]*)\.\.([0-9]*)\)*/)
+					#$element =~ s/complement//g;
+					if ($element =~ /\(*([0-9]*)\.\.([0-9]*)\)*/){			# Get the number upside to .. and downside to get the join accession = $1 ($element =~ /\(*(.*):([0-9]*)\.\.([0-9]*)\)*/)
 
-						#print "VERSION		", $1, "\n";
 						print "START		", $1, "\n";
 						print "END    		", $2, "\n";					
 						my @add_cord = ($1, $2);
-						push @cordinates, [@add_cord];					
+						push @cordinates, [@add_cord];						# Add Start Stop cordinates
 						#print Dumper \@cordinates, "\n";
 					
 					}
 					
 				}
-				print Dumper \@cordinates, "\n";
+	
 			}
+			else {  
+				$complement = 0;
+				#print "SENSE      ", $cds, "\n";             
+				print "SENSE      ", $sense_count++, "\n";
+				
+				my @cord = split /,/, $cds;									
+				#print Dumper \@cord, "\n";
+				for my $element (@cord){
+					#print "ELEMENT  ", $element, "\n";
+					if ($element =~ /\(*([0-9]*)\.\.([0-9]*)\)*/){			
+
+						print "START		", $1, "\n";
+						print "END    		", $2, "\n";					
+						my @add_cord = ($1, $2);
+						push @cordinates, [@add_cord];						
+						#print Dumper \@cordinates, "\n";
+					
+					}
+					
+				}
+				#print Dumper \@cordinates, "\n";
+				
+				
+			}
+			print Dumper \@cordinates, "\n";
 		
 		}
 		if($features_line =~ /\/gene="(.*)"/){
@@ -155,7 +168,7 @@ while ($entry = get_entry($file) ) {
 		}
 		if($features_line =~ /\/codon_start=(\d*)/){
 			$cod_start = $1;
-			print "Cod Start	", $cod_start, "\n";
+			#print "Cod Start	", $cod_start, "\n";
 		}
 		if($features_line =~ /\/product="(.*)"/){
 			$product = $1;
@@ -236,22 +249,6 @@ sub split_entry {
 	$seq =~ s/\s*\d*//g;
 	
 	return($annotation, $features, $seq);
-
-
-
-}
-
-sub file_to_array {
-
-	# get file name and initialise variable
-	my ($fin_name) = @_;
-	my @fin =();
-	open (DATA, $fin_name) or die "\nCan't open $fin_name, closing!!! \n";
-
-	@fin = <DATA>;
-	
-	close DATA;
-	return @fin;
 
 
 }
