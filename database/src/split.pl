@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use DBI;
-
+use Data::Dumper qw(Dumper);
 
 # Open data file 
 my $data_file = "chrom_CDS_16";
@@ -24,9 +24,9 @@ my $annotation = '';
 my $features = '';
 my $sequence = '';
 
-my $count = 0;
-my $compl_count = 0;
-my $sense_count = 0;
+my $count = 1;
+my $compl_count = 1;
+my $sense_count = 1;
 
 my $file = open_file($data_file);
 
@@ -89,6 +89,7 @@ while ($entry = get_entry($file) ) {
 		
 		#print $features_line;
 		my ($cds, $gene, $map, $st_name, $cod_start, $product, $protID, $aa);
+		my @cordinates;
 		
 		if ($features_line =~ /\/map="(.*)"/){
 			$map = $1;
@@ -122,7 +123,18 @@ while ($entry = get_entry($file) ) {
 				print "SENSE      ", $cds, "\n";             
 				print "SENSE      ", $sense_count++, "\n";
 				
-				
+				my @cord = split /,/, $cds;
+				print Dumper \@cord, "\n";
+				for my $element (@cord){
+					print "ELEMENT  ", $element, "\n";
+					if ($element =~ /\(*([0-9]*)\.\.([0-9]*)\)*/){
+					
+					#@cordinates;
+					print "START  ", $1, "\n";
+					print "END    ", $2, "\n";
+					}
+					
+				}
 				
 			}
 		
