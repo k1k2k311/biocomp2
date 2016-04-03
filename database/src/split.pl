@@ -25,6 +25,8 @@ my $features = '';
 my $sequence = '';
 
 my $count = 0;
+my $compl_count = 0;
+my $sense_count = 0;
 
 my $file = open_file($data_file);
 
@@ -35,7 +37,7 @@ while ($entry = get_entry($file) ) {
 
 	print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
 	#print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n";
-	#print $count++, "\n";
+	print $count++, "\n";
 	#print $annotation;
 	#print $features;
 	#print $sequence;
@@ -97,13 +99,30 @@ while ($entry = get_entry($file) ) {
 			#print "2   ", $2, "\n";
 			#print "3   ", $3, "\n";
 			#$count++;
-			print "COUNT  ", $count++, "\n";
+			#print "COUNT  ", $count++, "\n";
 			$cds = $1;
-			$cds =~ s/\s*//g;
-			print $cds, "\n\n";
-			if($cds =~ /(^\w*)(.*)/){
-				print "WORD  ", $1, "\n";
-				print "REST  ", $2, "\n";
+			$cds =~ s/(join)*\s*//g;
+			print "CDS  ", $cds, "\n\n";
+			if($cds =~ /^\(*complement(.*)/){
+				print "COMPLEMENT ", $1, "\n";
+				print "COMPLEMENT ", $compl_count++, "\n";
+				
+				
+				
+				if ($1 eq "join") {
+					#print "JOIN  	\n";
+					#print "COUNT  	  ", $count++, "\n";
+				}
+				elsif($1 eq "complement") {
+					#print "COUNT  	  ", $count++, "\n";
+				}
+				
+			}
+			else {  
+				print "SENSE      ", $cds, "\n";             
+				print "SENSE      ", $sense_count++, "\n";
+				
+				
 				
 			}
 		
@@ -133,7 +152,7 @@ while ($entry = get_entry($file) ) {
 		
 		
 		}
-		if($features_line =~ /\/translation=(.[^"]*?)"/s){			# Match /translation= and everithing but " until "
+		if($features_line =~ /\/translation=(.[^"]*?)"/s){			# Match /translation= and everything but " until "
 			$aa = $1;
 			#print "ProteinAA	", $aa, "\n";
 			#print "COUNT  ", $count++, "\n";
