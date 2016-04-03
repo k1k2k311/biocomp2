@@ -124,18 +124,22 @@ while ($entry = get_entry($file) ) {
 				print "SENSE      ", $sense_count++, "\n";
 				
 				my @cord = split /,/, $cds;
-				print Dumper \@cord, "\n";
+				#print Dumper \@cord, "\n";
 				for my $element (@cord){
 					print "ELEMENT  ", $element, "\n";
-					if ($element =~ /\(*([0-9]*)\.\.([0-9]*)\)*/){
+					if ($element =~ /\(*(.*):([0-9]*)\.\.([0-9]*)\)*/){			# Get the number upside to .. and downside to get the join version ($element =~ /\(*(.*):([0-9]*)\.\.([0-9]*)\)*/)
+
+						#print "VERSION		", $1, "\n";
+						print "START		", $1, "\n";
+						print "END    		", $2, "\n";					
+						my @add_cord = ($1, $2);
+						push @cordinates, [@add_cord];					
+						#print Dumper \@cordinates, "\n";
 					
-					#@cordinates;
-					print "START  ", $1, "\n";
-					print "END    ", $2, "\n";
 					}
 					
 				}
-				
+				print Dumper \@cordinates, "\n";
 			}
 		
 		}
