@@ -47,7 +47,7 @@ while ($entry = get_entry($file) ) {
 	#print @annotation;
 	
 	for my $annotation_line (@annotation) {
-
+	#for my $annotation_line ($annotation) {
 		if($annotation_line =~ /^LOCUS/) {
 			$annotation_line =~ s/^LOCUS\s*//;
 			chomp(my $locus = $annotation_line);
@@ -72,7 +72,7 @@ while ($entry = get_entry($file) ) {
 	
 				chomp(my $acc_ver = $1);
 				chomp(my $gene_ID = $2);
-				#print "GeneID		", $gene_ID, "\n";
+				print "GeneID		", $gene_ID, "\n";
 				#print "AccVersion	", $acc_ver, "\n";
 			
 			}	
@@ -84,12 +84,29 @@ while ($entry = get_entry($file) ) {
 	
 	foreach (my $features_line = $features){
 		
+		
 		#print $features_line;
-		my ($gene, $map, $st_name, $cod_start, $product, $protID) = 'N/A';
+		my ($cds, $gene, $map, $st_name, $cod_start, $product, $protID, $aa);
 		
 		if ($features_line =~ /\/map="(.*)"/){
 			$map = $1;
 			#print "Map		", $map, "\n";
+		}
+		if($features_line =~ /CDS\s*(.[^\/]*?)\//m){			# Match everything (including \n) after CDS but / until /
+			#print "1   ", $1, "\n";
+			#print "2   ", $2, "\n";
+			#print "3   ", $3, "\n";
+			#$count++;
+			print "COUNT  ", $count++, "\n";
+			$cds = $1;
+			$cds =~ s/\s*//g;
+			print $cds, "\n\n";
+			if($cds =~ /(^\w*)(.*)/){
+				print "WORD  ", $1, "\n";
+				print "REST  ", $2, "\n";
+				
+			}
+		
 		}
 		if($features_line =~ /\/gene="(.*)"/){
 			$gene = $1;
@@ -116,21 +133,16 @@ while ($entry = get_entry($file) ) {
 		
 		
 		}
-		elsif($features_line =~ /\/standard_name="(.*)"/){
-		
-		
+		if($features_line =~ /\/translation=(.[^"]*?)"/s){			# Match /translation= and everithing but " until "
+			$aa = $1;
+			#print "ProteinAA	", $aa, "\n";
+			#print "COUNT  ", $count++, "\n";
 		}		
 		
 						
 	} # features
 
-#                      /gene="AXIN1"
-#                      /locus_tag="LA16c-314G4.3-001"
-#                      /standard_name="OTTHUMP00000067405"
-#                      /codon_start=1
-#                      /product="axin 1"
-#                      /protein_id="CAI95600.2"
-    		
+
 	
 	
 } 
