@@ -14,16 +14,15 @@ my $annotation_flag = 0;
 my $seq_flag = 0;
 my $seq ='';
 my @annot = '';
-my $entry = '';
+
 my $flag = 0;
 
-my $accession_version = '';
+#my $accession_version = '';
 
 
-my $annotation = '';
-my $features = '';
-my $sequence = '';
-
+my $entry = '';
+my %gene;
+my %cordinates;
 my $count = 1;
 my $compl_count = 1;
 my $sense_count = 1;
@@ -32,6 +31,10 @@ my $file = open_file($data_file);
 
 
 while ($entry = get_entry($file) ) {
+
+	my $annotation = '';
+	my $features = '';
+	my $sequence = '';
 
 	($annotation, $features, $sequence) = split_entry($entry);
 
@@ -42,9 +45,12 @@ while ($entry = get_entry($file) ) {
 	#print $features;
 	#print $sequence;
 	
-
-
-	my @annotation = split /^/m, $annotation;			# split to array by start of the line
+	
+	my $gene_ID = '';
+	my $acc_ver = '';
+	my $locus = '';
+	my @annotation; 
+	@annotation = split /^/m, $annotation;			# split to array by start of the line
 	#print "Size: ",scalar @annotation,"\n";
 	#print @annotation;
 	
@@ -52,7 +58,7 @@ while ($entry = get_entry($file) ) {
 	#for my $annotation_line ($annotation) {
 		if($annotation_line =~ /^LOCUS/) {
 			$annotation_line =~ s/^LOCUS\s*//;
-			chomp(my $locus = $annotation_line);
+			chomp($locus = $annotation_line);
 			#print $locus;
 		}
 
@@ -72,8 +78,8 @@ while ($entry = get_entry($file) ) {
 			
 				#print "VERSION  ", $1, "\n\n";
 	
-				chomp(my $acc_ver = $1);
-				chomp(my $gene_ID = $2);
+				chomp($acc_ver = $1);
+				chomp($gene_ID = $2);
 				print "GeneID		", $gene_ID, "\n";
 				#print "AccVersion	", $acc_ver, "\n";
 			
@@ -83,12 +89,12 @@ while ($entry = get_entry($file) ) {
 
 	} # For annotation
 	
-	
+	my ($cds, @cordinates, $complement, $gene, $map, $st_name, $cod_start, $product, $protID, $aa);
+
 	foreach (my $features_line = $features){
 		
 		
-		my ($cds, @cordinates, $complement, $gene, $map, $st_name, $cod_start, $product, $protID, $aa);
-
+		
 		
 		if ($features_line =~ /\/map="(.*)"/){
 			$map = $1;
@@ -183,6 +189,7 @@ while ($entry = get_entry($file) ) {
 		}
 		if($features_line =~ /\/translation=(.[^"]*?)"/s){			# Match /translation= and everything but " until "
 			$aa = $1;
+			$aa =~ s/"//g;
 			#print "ProteinAA	", $aa, "\n";
 			#print "COUNT  ", $count++, "\n";
 		}		
@@ -191,13 +198,51 @@ while ($entry = get_entry($file) ) {
 	} # features
 
 #($gene_ID, $acc_ver, @cordinates, $complement, $gene, $sequence, $map, $cod_start, $product, $protID, $aa)
+#print "TEST    ", $protID, "\n\n";
+####@cordinates
+my @values = ($acc_ver, $complement, $gene, $sequence, $map, $cod_start, $product, $protID, $aa);
+$gene{$gene_ID} = [ @values ];
 
-	
+
+$cordinates{$gene_ID} = [ @cordinates ];
+		
 	
 } 
 
+foreach my $key (keys %gene)
+{
+	#print "key $key value $genes{$key} \n";
+	#print "key $key value1 @{ $genes{$key} } \n"
+	print "Gene ID			", $key, "\n";
+	my $acc_ver = @{ $gene{$key} }[0];
+	print "AccesionVersion		", $acc_ver, "\n";
+	my $complement = @{ $gene{$key} }[1];
+	print "Complement		", $complement, "\n";
+	my  $gene = @{ $gene{$key} }[2];
+	print "Gene			", $gene, "\n";
+	my  $sequence = @{ $gene{$key} }[3];
+	print "Sequence		", $sequence, "\n";
+	my  $map = @{ $gene{$key} }[4];
+	print "Map			", $map, "\n";
+	my  $cod_start = @{ $gene{$key} }[5];
+	print "Cod Start		", $cod_start, "\n";	
+	my  $product = @{ $gene{$key} }[6];
+	print "Product			", $product, "\n";	
+	my  $protID = @{ $gene{$key} }[7];
+	print "Protein ID		", $protID, "\n";
+	my  $aa = @{ $gene{$key} }[8];
+	print "AA Sequence		", $aa, "\n";
+
+	print "@@@@@@@@@@@@@@@\n\n";  
+
+}
 
 
+
+foreach my $key (keys %cordinates) {
+	print "###########    ", $key, "\n";
+	print $cordinates{$key};
+}
 
 1;
 exit;
@@ -238,18 +283,18 @@ sub split_entry {
 	my $entry = $_[0];
 	#my $n = scalar(@_);
 	#print "SCALAR     ", $n;
-	my $annotation = '';
+	my $annot = '';
 	my $feat = '';
 	my $seq = '';
 
 	$entry =~  /^(LOCUS.*)(FEATURES.*)ORIGIN(.*)\/\/\n/s;
 	
-	$annotation = $1;
-	$features = $2;
+	$annot = $1;
+	$feat = $2;
 	$seq = $3;
 	$seq =~ s/\s*\d*//g;
 	
-	return($annotation, $features, $seq);
+	return($annot, $feat, $seq);
 
 
 }
