@@ -99,7 +99,7 @@ while ($entry = get_entry($file) ) {
 			#print "COUNT  ", $count++, "\n";
 			$cds = $1;
 			$cds =~ s/(join)*\s*//g;							# Remove "join", lines and spaces
-			print "CDS  ", $cds, "\n\n";
+			#print "CDS  ", $cds, "\n\n";
 			
 			
 			
@@ -114,12 +114,12 @@ while ($entry = get_entry($file) ) {
 				my @cord = split /,/, $1;									# Split by ,
 				#print Dumper \@cord, "\n";
 				for my $element (@cord){
-					print "ELEMENT  ", $element, "\n";
-					#$element =~ s/complement//g;
+					#print "ELEMENT  ", $element, "\n";
+					$element =~ s/complement//g;
 					if ($element =~ /\(*([0-9]*)\.\.([0-9]*)\)*/){			# Get the number upside to .. and downside to get the join accession = $1 ($element =~ /\(*(.*):([0-9]*)\.\.([0-9]*)\)*/)
 
-						print "START		", $1, "\n";
-						print "END    		", $2, "\n";					
+						#print "START		", $1, "\n";
+						#print "END    		", $2, "\n";					
 						my @add_cord = ($1, $2);
 						push @cordinates, [@add_cord];						# Add Start Stop cordinates
 						#print Dumper \@cordinates, "\n";
@@ -129,19 +129,19 @@ while ($entry = get_entry($file) ) {
 				}
 	
 			}
-			else {  
+			else {  														# Positive strand
 				$complement = 0;
 				#print "SENSE      ", $cds, "\n";             
-				print "SENSE      ", $sense_count++, "\n";
+				print "POSITIVE     ", $sense_count++, "\n";
 				
 				my @cord = split /,/, $cds;									
 				#print Dumper \@cord, "\n";
 				for my $element (@cord){
-					#print "ELEMENT  ", $element, "\n";
+					#print "ELEMENT  ", $element, "\n";						
 					if ($element =~ /\(*([0-9]*)\.\.([0-9]*)\)*/){			
 
-						print "START		", $1, "\n";
-						print "END    		", $2, "\n";					
+						#print "START		", $1, "\n";
+						#print "END    		", $2, "\n";					
 						my @add_cord = ($1, $2);
 						push @cordinates, [@add_cord];						
 						#print Dumper \@cordinates, "\n";
@@ -149,11 +149,11 @@ while ($entry = get_entry($file) ) {
 					}
 					
 				}
-				#print Dumper \@cordinates, "\n";
+				
 				
 				
 			}
-			print Dumper \@cordinates, "\n";
+			#print Dumper \@cordinates, "\n";								
 		
 		}
 		if($features_line =~ /\/gene="(.*)"/){
@@ -190,6 +190,7 @@ while ($entry = get_entry($file) ) {
 						
 	} # features
 
+#($gene_ID, $acc_ver, @cordinates, $complement, $gene, $sequence, $map, $cod_start, $product, $protID, $aa)
 
 	
 	
