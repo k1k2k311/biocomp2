@@ -74,8 +74,12 @@ sub get_genes {
 	return %gene_names;
 	
 }
+sub save_gene {
+	
+	
+	
 
-
+}
 
 1; 
 
