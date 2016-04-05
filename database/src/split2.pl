@@ -40,17 +40,17 @@ while ( $entry = get_entry($file)) {
 	$seq = $3;
 	$seq =~ s/\s*\d*//g;
 	#
-	print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
+	print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n\n";
 	#print "Annotation     ", $annotation ,"\n";
-	print "Features       ", $features ,"\n";
-	#print "Sequence       ", $seq ,"\n";
+	#print "Features       ", $features ,"\n";
+	print "Sequence       ", $seq ,"\n";
 	
 }
 
 
 
-
-
+     |
+12345
 
 1;
 exit;
