@@ -9,37 +9,7 @@ sub bye {
   return "validating 44444";
 }
 
-sub get_gene_names {
-
-	
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
-
-	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
-
-	my $sql = 'SELECT gene_ID, acc_ver  FROM chromosome16_genes';
-	my $gene_ID = '';
-	my $acc_ver = '';
-	my %gene_names;
-
-    my $sth = $dbh->prepare($sql);
-    $sth->execute;
-    
-    while(($gene_ID, $acc_ver) = $sth->fetchrow_array)
-    {
-    	#print "$gene_ID, $acc_ver \n";
-
-		$gene_names{$gene_ID}=$acc_ver;
-
-	
-	}
-
-	return %gene_names;
-	
-}
+sub get_gene_names {		my $dbname   = "ri001";	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";	my $username = "ri001";	my $password = "6xu1ornxo";	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";	my $sql = 'SELECT gene_ID, acc_ver  FROM chromosome16_genes';	my $gene_ID = '';	my $acc_ver = '';	my %gene_names;    my $sth = $dbh->prepare($sql);    $sth->execute;        while(($gene_ID, $acc_ver) = $sth->fetchrow_array)    {    	#print "$gene_ID, $acc_ver \n";		$gene_names{$gene_ID}=$acc_ver;		}	return %gene_names;	}
 
 sub get_genes {
 
@@ -52,19 +22,23 @@ sub get_genes {
 
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
-	my $sql = 'SELECT gene_ID, acc_ver, locus  FROM chromosome16_genes';
+	my $sql = 'SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes';
+
 	my $gene_ID = '';
 	my $acc_ver = '';
-	my $locus = '';
 	my %gene_names;
-
+	my  $gene = '';
+	my  $map = '';
+	my  $product = '';
+	my  $protID = '';
+	
     my $sth = $dbh->prepare($sql);
     $sth->execute;
     
-    while(($gene_ID, $acc_ver, $locus) = $sth->fetchrow_array)
+    while(($gene_ID, $acc_ver, $gene, $map, $product, $protID) = $sth->fetchrow_array)
     {
     	#print "$gene_ID, $acc_ver \n";
-		my @values = ($acc_ver, $locus);
+		my @values = ($acc_ver, $gene, $map, $product, $protID);
 
 		$gene_names{$gene_ID}= [ @values ];
 
@@ -100,23 +74,23 @@ foreach my $key (keys %gene_hash)
 	my $gene_ID = $key;
 	print "Gene ID			", $key, "\n";
 	my $acc_ver = @{ $gene_hash{$key} }[0];
-	print "AccesionVersion		", $acc_ver, "\n";
+	#print "AccesionVersion		", $acc_ver, "\n";
 	my $complement = @{ $gene_hash{$key} }[1];
-	print "Complement		", $complement, "\n";
+	#print "Complement		", $complement, "\n";
 	my  $gene = @{ $gene_hash{$key} }[2];
-	print "Gene			", $gene, "\n";
+	#print "Gene			", $gene, "\n";
 	my  $sequence = @{ $gene_hash{$key} }[3];
-	print "Sequence		", $sequence, "\n";
+	#print "Sequence		", $sequence, "\n";
 	my  $map = @{ $gene_hash{$key} }[4];
-	print "Map			", $map, "\n";
+	#print "Map			", $map, "\n";
 	my  $cod_start = @{ $gene_hash{$key} }[5];
-	print "Cod Start		", $cod_start, "\n";
+	#print "Cod Start		", $cod_start, "\n";
 	my  $product = @{ $gene_hash{$key} }[6];
-	print "Product			", $product, "\n";
+	#print "Product			", $product, "\n";
 	my  $protID = @{ $gene_hash{$key} }[7];
-	print "Protein ID		", $protID, "\n";
+	#print "Protein ID		", $protID, "\n";
 	my  $aa = @{ $gene_hash{$key} }[8];
-	print "AA Sequence		", $aa, "\n";
+	#print "AA Sequence		", $aa, "\n";
 
 	print "@@@@@@@@@@@@@@@\n\n";
 	
