@@ -1,7 +1,8 @@
 -- CREATE DATABASE compbio2;
 -- USE compbio2;
 
--- USE ri001;
+-- USE ri001; mysql -u ri001 -p'6xu1ornxo' ri001 < create.sql
+
 DROP TABLE if exists chromosome16_genes;
 CREATE TABLE chromosome16_genes
 (
@@ -11,7 +12,7 @@ CREATE TABLE chromosome16_genes
     map			VARCHAR(20)     DEFAULT 'N/A' NOT NULL,
     product		VARCHAR(200)    DEFAULT 'N/A' NOT NULL,	
     protID		VARCHAR(20)     DEFAULT 'N/A' NOT NULL,
-    aminoacid			TEXT    		DEFAULT 'N/A' NOT NULL,
+    aminoacid	TEXT    		,
     complement	VARCHAR(20)     NOT NULL,
     sequence	LONGTEXT     	NOT NULL,
 	cod_start	INT	     		NOT NULL,
@@ -21,9 +22,6 @@ CREATE TABLE chromosome16_genes
 );
 
 -- cordinates	VARCHAR(100)    NOT NULL,
-
-
-#($gene_ID, $acc_ver, @cordinates, $complement, $gene, $sequence, $map, $cod_start, $product, $protID, $aa)
 
 
 
