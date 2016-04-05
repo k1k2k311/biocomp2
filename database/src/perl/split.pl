@@ -3,9 +3,10 @@ use strict;
 use warnings;
 use DBI;
 use Data::Dumper qw(Dumper);
+use Biocomp2::DataAccess;
 
 # Open data file 
-my $data_file = "chrom_CDS_16";
+my $data_file = "../chrom_CDS_16";
 chomp $data_file;
 
 
@@ -205,9 +206,14 @@ $gene{$gene_ID} = [ @values ];
 
 
 $cordinates_hash{$gene_ID} = [ @cordinates ];
-		
+
+
 	
-} 
+}
+
+Biocomp2::DataAccess::save_genes(\%gene, \%cordinates_hash);
+
+
 
 # foreach my $key (keys %gene)
 # {
@@ -238,22 +244,22 @@ $cordinates_hash{$gene_ID} = [ @cordinates ];
 # }
 
 
-
-foreach my $key (keys %cordinates_hash) {
-	print "###########    ", $key, "\n";
-	my @aoa = @{$cordinates_hash{$key}};
-
-	print Dumper \@aoa;
-
-
-	for my $i ( 0 .. $#aoa ) {
-        my $row = $aoa[$i];
-        for my  $j ( 0 .. $#{$row} ) {
-            print "element $i $j is $row->[$j]\n";
-        }
-    }
-
-}
+#
+#foreach my $key (keys %cordinates_hash) {
+#	print "###########    ", $key, "\n";
+#	my @aoa = @{$cordinates_hash{$key}};
+#
+#	print Dumper \@aoa;
+#
+#
+#	for my $i ( 0 .. $#aoa ) {
+#         my $row = $aoa[$i];
+#         for my  $j ( 0 .. $#{$row} ) {
+#             print "element $i $j is $row->[$j]\n";
+#         }
+#     }
+#
+#}
 
 
 
