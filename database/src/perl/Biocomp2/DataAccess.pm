@@ -48,6 +48,7 @@ sub get_genes {
 	return %gene_names;
 	
 }
+
 sub save_genes {
 	
 	my $dbname   = "ri001";
@@ -100,8 +101,7 @@ foreach my $key (keys %gene_hash)
 	if (defined $dbh) {
 	my $sql = "INSERT INTO chromosome16_genes (gene_ID, acc_ver, complement, gene, sequence, map, cod_start, product, protID, aminoacid) VALUES ('$gene_ID','$acc_ver','$complement', '$gene', '$sequence', '$map', '$cod_start', '$product', '$protID', '$aa')";
 	$dbh->do($sql);
-	print "INSERT INTO chromosome16_genes  ", $gene_ID, "\n ", $acc_ver, "\n ",$complement, "\n ",$gene, 
-"\n ",$sequence, "\n ", $map, "\n ", $cod_start, "\n ", $product, "\n ", $protID, "\n ", $aa, "\n\n";
+	#print "INSERT INTO chromosome16_genes  ", $gene_ID, "\n ", $acc_ver, "\n ",$complement, "\n ", $gene, "\n ", $sequence, "\n ", $map, "\n ", $cod_start, "\n ", $product, "\n ", $protID, "\n ", $aa, "\n\n";
 		
 	}
 
@@ -126,7 +126,7 @@ foreach my $key (keys %gene_hash)
 
 
 
-
+}
 }
 
 1; 
