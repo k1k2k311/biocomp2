@@ -1,5 +1,6 @@
 #!/usr/bin/perl
-use CGI;
+use CGI		qw( escapeHTML );
+use URI::Escape qw( uri_escape );
 use Biocomp2::Middle;
 $cgi = new CGI;
 print $cgi->header();
@@ -22,7 +23,9 @@ tab2 {color:grey;}
 __EOF
 foreach my $key ( keys %genes )
 {
-	printf '<li>key:<tab2><a href="www.google.co.uk">$key</a></tab2>,  <tab1>value:</tab1><tab2> $genes{$key} </tab2></li> \n';
+	my $uri = 'prog1.cgi?data='.uri_escape($key);
+   	my $html = escapeHTML($key);
+   	print qq{<a href="$uri">$html</a>};
 }
 print "</body> </html>";
 
