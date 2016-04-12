@@ -5,11 +5,6 @@ $cgi = new CGI;
 print $cgi->header();
 my $x = Biocomp2::Middle::hello();
 my %genes = Biocomp2::Middle::get_all_genes();
-foreach my $key ( keys %genes )
-{
-  print "key: <a href="http://www.yahoo.com">$key</a>, \t value: $genes{$key} \n";
-}
-
 print <<__EOF;
 <html>
 <head>
@@ -17,7 +12,10 @@ print <<__EOF;
 </head>
 <body>
 <h1>Hello World! $x</h1>
-
-</body>
-</html>
 __EOF
+foreach my $key ( keys %genes )
+{
+	print "<li>key: <a href="http://www.yahoo.com">$key</a></li>, \t value: $genes{$key} \n";
+}
+print "</body> </html>";
+
