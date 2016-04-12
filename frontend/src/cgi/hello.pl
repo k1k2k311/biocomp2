@@ -9,6 +9,12 @@ my %details = Biocomp2::Middle::get_genes();
 print <<__EOF;
 <html>
 <head>
+<style>
+body {background-color:white;}
+h1   {color:blue;}
+tab1 {padding: 10px; color:black;}
+tab2 {color:grey;}
+</style>
    <title>Hello World!</title>
 </head>
 <body>
@@ -16,7 +22,7 @@ print <<__EOF;
 __EOF
 foreach my $key ( keys %genes )
 {
-	print "<li>key:$key </li>,  value: $genes{$key} \n";
+	print "<li>key:<tab2>$key</tab2>,  <tab1>value:</tab1><tab2> $genes{$key} </tab2></li> \n";
 }
 print "</body> </html>";
 
