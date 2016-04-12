@@ -6,7 +6,7 @@ print $cgi->header();
 my $param = $cgi->param('param');
 my $x = Biocomp2::Middle::hello();
 my %genes = Biocomp2::Middle::get_all_genes();
-my %details = Biocomp2::Middle::get_details();
+my %details = Biocomp2::Middle::get_genes();
 print <<__EOF;
 <html>
 <head>
@@ -17,7 +17,7 @@ print <<__EOF;
 __EOF
 foreach my $key ( keys %genes )
 {
-	print "<li>key:<a href="./cgi-bin/run_script.cgi?param=value">$key</a> </li>,  value: $genes{$key} \n";
+	print "<li>key:<a href="./cgi-bin/Biocomp2/Middle.pm?param=$key">$key</a> </li>,  value: $genes{$key} \n";
 }
 print "</body> </html>";
 
