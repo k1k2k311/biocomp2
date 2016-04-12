@@ -12,7 +12,7 @@ print <<__EOF;
 <style>
 body {background-color:white;}
 h1   {color:blue;}
-tab1 {padding: 10px; color:black;}
+tab1 {padding: 30px; color:black;}
 tab2 {color:grey;}
 </style>
    <title>Hello World!</title>
@@ -22,7 +22,7 @@ tab2 {color:grey;}
 __EOF
 foreach my $key ( keys %genes )
 {
-	print "<li>key:<tab2>$key</tab2>,  <tab1>value:</tab1><tab2> $genes{$key} </tab2></li> \n";
+	printf '<li>key:<tab2><a href="www.google.co.uk">$key</a></tab2>,  <tab1>value:</tab1><tab2> $genes{$key} </tab2></li> \n';
 }
 print "</body> </html>";
 
