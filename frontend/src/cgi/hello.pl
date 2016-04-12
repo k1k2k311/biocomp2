@@ -25,7 +25,8 @@ foreach my $key ( keys %genes )
 {
 	my $uri = 'prog1.cgi?data='.uri_escape($key);
    	my $html = escapeHTML($key);
-   	print qq{<a href="$uri">$html</a>};
+	print qq{<li>key:<tab2><a href="$uri">$html</a></tab2>,  <tab1>value:</tab1><tab2> $genes{$key} </tab2></li> \n};
+
 }
 print "</body> </html>";
 
