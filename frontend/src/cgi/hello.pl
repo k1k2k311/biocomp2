@@ -15,7 +15,7 @@ print <<__EOF;
 __EOF
 foreach my $key ( keys %genes )
 {
-	print "<li>key: <a href="http://www.yahoo.com">$key</a></li>, \t value: $genes{$key} \n";
+	print "<li>key:$key</a></li>, \t value: $genes{$key} \n";
 }
 print "</body> </html>";
 
