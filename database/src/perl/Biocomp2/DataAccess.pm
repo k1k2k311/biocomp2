@@ -24,21 +24,6 @@ sub get_gene_details {
 	my $product = '';
 	my $protID = '';
 
-	#print "MYSQL    ", $sql, "\n";
-
-	my @gene_details;
-
-
-	@gene_details= $dbh ->selectrow_array($sql);
-
-
-    foreach my $element (@gene_details) {
-
-        print $element;
-    }
-
-	#return @gene_details;
-
 	my $gene_details_ref =  $dbh ->selectrow_hashref($sql);
 
 	return $gene_details_ref;
