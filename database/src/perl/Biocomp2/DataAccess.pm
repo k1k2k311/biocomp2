@@ -4,7 +4,7 @@ use warnings;
 use DBI;
 
 
-sub gene_details {
+sub get_gene_details {
 
 
 	my $dbname   = "ri001";
@@ -16,12 +16,15 @@ sub gene_details {
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
 
-    #my $gene_ID = @_;
-	my $sql = 'SELECT acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE gene_ID= 13937341';
+    my ($gene_ID) = @_;
+	my $sql = "SELECT acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE gene_ID= $gene_ID";
 	my $acc_ver = '';
 	my $gene = '';
+	my $map = '';
 	my $product = '';
-	my protID = '';
+	my $protID = '';
+
+	#print "MYSQL    ", $sql, "\n";
 
 	my @gene_details;
 
@@ -29,14 +32,16 @@ sub gene_details {
 	@gene_details= $dbh ->selectrow_array($sql);
 
 
-    foreach $element (@gene_details) {
+    foreach my $element (@gene_details) {
 
         print $element;
     }
-	return @gene_names;
 
+	#return @gene_details;
 
+	my $gene_details_ref =  $dbh ->selectrow_hashref($sql);
 
+	return $gene_details_ref;
 
 
 }
