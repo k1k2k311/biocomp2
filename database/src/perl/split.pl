@@ -111,56 +111,64 @@ while ($entry = get_entry($file) ) {
 			
 			
 			
-			if($cds =~ /^\(*complement(.*)/){					# Split by strand
+			if($cds =~ /^\(*complement(.*)/){					# Split by strand!!! Match after complement
 				
 				#print "1   ", $1, "\n";
 				#print "2   ", $2, "\n";
 				$complement = 1;											# Assign TRUE to complement strand
 				print "COMPLEMENT ", $compl_count++, "\n";
 
-				my @cord = split /,/, $1;									# Split by ,
+				my @cord = split /,/, $1;									# Split exons by ,
 				#print Dumper \@cord, "\n";
 				for my $element (@cord){
 					#print "ELEMENT  ", $element, "\n";
 					$element =~ s/complement//g;
-					if ($element =~ /\(*([0-9]*)\.\.([0-9]*)\)*/){			# Get the number upside to .. and downside to get the join accession = $1 ($element =~ /\(*(.*):([0-9]*)\.\.([0-9]*)\)*/)
+					if	($element =~ /\(*(.*:)?([0-9]*)\.\.([0-9]*)\)*/) {
 
-						#print "START		", $1, "\n";
-						#print "END    		", $2, "\n";					
-						my @add_cord = ($1, $2);
-						push @cordinates, [@add_cord];						# Add Start Stop cordinates
-						#print Dumper \@cordinates, "\n";
-					
+                        if (defined $1){
+                            #print "Splice Accesion version to join ", $1, "\n";     # Option DISCARDED not used alternative splice variants
+                            next;
+                        }
+                        else {
+                            print "START		    ", $2, "\n";
+						    print "END    		    ", $3, "\n";
+						    my @add_cord = ($2, $3);
+						    push @cordinates, [@add_cord];						# Add Start Stop cordinates
+						    #print Dumper \@cordinates, "\n";
+                        }
 					}
 					
 				}
 	
 			}
 			else {  														# Positive strand
-				$complement = 0;
+				$complement = 0;                                            # Assign FALSE to complement strand
 				#print "SENSE      ", $cds, "\n";             
 				print "POSITIVE     ", $sense_count++, "\n";
 				
-				my @cord = split /,/, $cds;									
+				my @cord = split /,/, $cds;									# Split exons by ,
 				#print Dumper \@cord, "\n";
 				for my $element (@cord){
 					#print "ELEMENT  ", $element, "\n";						
-					if ($element =~ /\(*([0-9]*)\.\.([0-9]*)\)*/){			
+					#if ($element =~ /\(*([0-9]*)\.\.([0-9]*)\)*/){
+					if	($element =~ /\(*(.*:)?([0-9]*)\.\.([0-9]*)\)*/) {
 
-						#print "START		", $1, "\n";
-						#print "END    		", $2, "\n";					
-						my @add_cord = ($1, $2);
-						push @cordinates, [@add_cord];						# Add Start Stop cordinates
-						#print Dumper \@cordinates, "\n";
-					
+                        if (defined $1){
+                            #print "Splice Accesion version to join ", $1, "\n";     # Option DISCARDED not used alternative splice variants
+                            next;
+                        }
+                        else {
+                            #print "START		    ", $2, "\n";
+						    #print "END    		    ", $3, "\n";
+						    my @add_cord = ($2, $3);
+						    push @cordinates, [@add_cord];						# Add Start Stop cordinates
+						    #print Dumper \@cordinates, "\n";
+                        }
 					}
-					
 				}
-				
-				
-				
+
 			}
-			#print Dumper \@cordinates, "\n";								
+			print Dumper \@cordinates, "\n";
 		
 		}
 		if($features_line =~ /\/gene="(.*)"/){                              # Match everything quoted after /gene=
