@@ -123,7 +123,7 @@ while ($entry = get_entry($file) ) {
 				for my $element (@cord){
 					#print "ELEMENT  ", $element, "\n";
 					$element =~ s/complement//g;
-					if	($element =~ /\(*(.*:)?([0-9]*)\.\.([0-9]*)\)*/) {
+					if	($element =~ /\(*(.*:)?([0-9]*)\.\.\>*([0-9]*)\)*/) {
 
                         if (defined $1){
                             #print "Splice Accesion version to join ", $1, "\n";     # Option DISCARDED not used alternative splice variants
