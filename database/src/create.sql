@@ -30,8 +30,9 @@ DROP TABLE if exists coordinates;
 CREATE TABLE coordinates
 (
     gene_ID     	INT             NOT NULL, 
-    COR_start     	INT			    NOT NULL,
-    COR_end       	INT 			NOT NULL,
+	exon_count		INT				NOT NULL,
+    COOR_start     	INT			    NOT NULL,
+    COOR_end       	INT 			NOT NULL,
 	
 	FOREIGN KEY (gene_ID) REFERENCES chromosome16_genes (gene_ID) ON DELETE CASCADE
 
