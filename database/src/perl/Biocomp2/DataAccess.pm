@@ -4,6 +4,8 @@ use warnings;
 use DBI;
 
 
+#SELECT gene_ID, product FROM chromosome16_genes WHERE product like '%acetyl%';  SELECT gene_ID, product FROM chromosome16_genes WHERE product like '%acl%' or gene_ID like '%5917707%';
+
 sub get_gene_details {
 
 
