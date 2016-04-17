@@ -160,7 +160,7 @@ foreach my $key (keys %gene_hash)
 	#print "INSERT INTO chromosome16_genes  ", $gene_ID, "\n ", $acc_ver, "\n ",$complement, "\n ", $gene, "\n ", $sequence, "\n ", $map, "\n ", $cod_start, "\n ", $product, "\n ", $protID, "\n ", $aa, "\n\n";
 		
 	}
-
+	
 }
 
 
