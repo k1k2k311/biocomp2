@@ -22,6 +22,7 @@ sub get_search {
 
     my ($search) = @_;
 	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE product LIKE '%$search%' or gene_ID LIKE '%$search%' or map LIKE '%$search%' or acc_ver LIKE '%$search%';;
+	my $gene_ID = '';	
 	my $acc_ver = '';
 	my $gene = '';
 	my $map = '';
@@ -48,8 +49,9 @@ sub get_gene_details {
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
 
-    my ($gene_ID) = @_;
-	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE gene_ID= $gene_ID";
+    my ($gene_query) = @_;
+	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE gene_ID= $gene_query";
+	my $gene_ID = '';	
 	my $acc_ver = '';
 	my $gene = '';
 	my $map = '';
