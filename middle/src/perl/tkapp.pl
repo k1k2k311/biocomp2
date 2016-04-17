@@ -24,19 +24,12 @@ sub get_genes() {
   my @gene_labels;
   foreach my $gene_id ( keys %all_genes ) {
     push @gene_ids, $gene_id;
-    # deref array
-    my @gene_details = @{$all_genes{$gene_id}};
-    my $accession_version = @gene_details[0];
-    print @gene_details;
-    print "\n";
-    print "$accession_version\n";
-    my $gene_name = @gene_details[1];
-    print "$gene_name\n";
-    my $gene_product = @gene_details[3];
-    print "$gene_product\n";
+    # deref details hash
+    my %details = %{$all_genes{$gene_id}};
+    my $gene_name = $details{"name"};
+    my $gene_product = $details{"product"};
     my $gene_label = "$gene_name $gene_product";
     push @gene_labels, $gene_label;
-    print "gene_id: $gene_id, value: $all_genes{$gene_id}\n";
   }
   return (\@gene_ids, \@gene_labels);
 }

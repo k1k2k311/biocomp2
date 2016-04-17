@@ -13,9 +13,34 @@ sub get_all_genes {
   return %gene_names;
 }
 
+# { 
+#    gene_id: {
+#       accession_version: ..
+#    }
+# }
 sub get_genes {
-	my %genes = Biocomp2::DataAccess::get_genes();
-	return %genes;
+  my %genes_db = Biocomp2::DataAccess::get_genes();
+  # convert from hash of arrays to hash of hashes
+  my %genes;
+  for my $gene_id (keys %genes_db) {
+#    print "$gene_id\n";
+    # deref
+    my @genes_db_array = @{$genes_db{$gene_id}};
+    # make a new hash for the gene details
+    my %gene_details;
+    my $accession_version = $genes_db_array[0];
+    my $gene_name = $genes_db_array[1];
+    my $gene_locus =  $genes_db_array[2];
+    my $product = $genes_db_array[3];
+    my $protein_id = $genes_db_array[4];
+    $gene_details{"accession_version"} = $accession_version;
+    $gene_details{"name"} = $gene_name;
+    $gene_details{"locus"} = $gene_locus;
+    $gene_details{"product"} = $product;
+    $gene_details{"protein_id"} = $protein_id;
+    $genes{$gene_id} = \%gene_details;
+  }
+  return %genes;
 }
 
 # You must be able to search the database to find an entry based on gene identifier,
@@ -32,16 +57,16 @@ sub search {
 
 sub get_gene_details {
   # input: gene ID
-  my (gene_id) = @_;
+  my ($gene_id) = @_;
 
-  my $db_gene_details_hash_ref = Biocomp2::DataAccess::get_gene_details(gene_id);
+  my $db_gene_details_hash_ref = Biocomp2::DataAccess::get_gene_details($gene_id);
   my %db_gene_details = %$db_gene_details_hash_ref;
 
   my %gene_details;
   # copy specific fields from dao layer.
-  $gene_details{'gene_id'} = gene_id;
+  $gene_details{'id'} = $gene_id;
   $gene_details{'accession_version'} = $db_gene_details{'acc_ver'};
-  $gene_details{'gene_name'} = $db_gene_details{'gene'};
+  $gene_details{'name'} = $db_gene_details{'gene'};
   $gene_details{'locus'} = $db_gene_details{'map'};
   $gene_details{'product'} = $db_gene_details{'product'};
   $gene_details{'protein_id'} = $db_gene_details{'protID'};
