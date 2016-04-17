@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use DBI;
 use Data::Dumper qw(Dumper);
-#use Biocomp2::DataAccess;
+use Biocomp2::DataAccess;
 
 # Open data file
 my $data_file = "../chrom_CDS_16";
