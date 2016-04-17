@@ -164,6 +164,30 @@ foreach my $key (keys %gene_hash)
 }
 
 
+foreach my $key (keys %cordinates_hash)
+{
+	my $gene_ID = $key;
+	print "Gene ID			", $key, "\n";
+	my $start = @{ cordinates_hash{$key} }[0];
+	print "Start	", $start, "\n";
+	my $end = @{ cordinates_hash{$key} }[1];
+	print "End		", $end, "\n";
+
+
+	print "@@@@@@@@@@@@@@@\n\n";
+
+
+
+	if (defined $dbh) {
+	my $sql = "INSERT INTO coordinates (gene_ID, start, end) VALUES ('$gene_ID','$start','$end')";
+	$dbh->do($sql);
+	print "INSERT INTO coordinates table  ", $gene_ID, "\n ", $start, "\n ",$end, "\n\n";
+
+	}
+
+}
+
+
 #foreach my $key (keys %cordinates_hash) {
 #	print "###########    ", $key, "\n";
 #	my @aoa = @{$cordinates_hash{$key}};
