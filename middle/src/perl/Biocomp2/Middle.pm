@@ -50,6 +50,7 @@ sub get_all_genes {
 #    }
 # }
 sub get_genes {
+  my %genes_db = Biocomp2::DataAccess::get_genes();
   # convert from hash of arrays to hash of hashes
   my %genes;
   for my $gene_id (keys %genes_db) {
