@@ -28,11 +28,26 @@ sub get_search {
 	my $map = '';
 	my $product = '';
 	my $protID = '';
+	my %gene_details;
 
-	my $gene_details_ref =  $dbh ->selectrow_hashref($sql);
+    my $sth = $dbh->prepare($sql);
+    $sth->execute;
+    
 
-	return $gene_details_ref;
+    while(($gene_ID, $acc_ver, $gene, $map, $product, $protID) = $sth->fetchrow_array)
+    {
+    	#print "$gene_ID, $acc_ver \n";
+		my @values = ($acc_ver, $gene, $map, $product, $protID);
 
+		$gene_details{$gene_ID}= [ @values ];
+
+	
+	}
+
+
+	return %gene_details;
+	
+	
 
 }
 
@@ -204,10 +219,10 @@ sub get_genes {
 	my $gene_ID = '';
 	my $acc_ver = '';
 	my %gene_names;
-	my  $gene = '';
-	my  $map = '';
-	my  $product = '';
-	my  $protID = '';
+	my $gene = '';
+	my $map = '';
+	my $product = '';
+	my $protID = '';
 	
     my $sth = $dbh->prepare($sql);
     $sth->execute;
