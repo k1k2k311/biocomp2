@@ -89,6 +89,9 @@ sub get_gene_details {
   $gene_details{'locus'} = $db_gene_details{'map'};
   $gene_details{'product'} = $db_gene_details{'product'};
   $gene_details{'protein_id'} = $db_gene_details{'protID'};
+  # get sequence
+  my $sequence = Biocomp2::DataAccess::get_sequence($gene_id);
+  $gene_details{'sequence'} = $sequence;
   return %gene_details;
 
   # Biocomp2::DataAccess::get_gene_sequences(gene_id)
