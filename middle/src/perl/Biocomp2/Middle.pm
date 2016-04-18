@@ -13,7 +13,7 @@ sub get_all_genes {
   return %gene_names;
 }
 
-# { 
+# {
 #    gene_id: {
 #       accession_version: ..,
 #       name: ....
@@ -74,6 +74,7 @@ sub get_gene_details {
   $gene_details{'locus'} = $db_gene_details{'map'};
   $gene_details{'product'} = $db_gene_details{'product'};
   $gene_details{'protein_id'} = $db_gene_details{'protID'};
+  return %gene_details;
 
   # Biocomp2::DataAccess::get_gene_sequences(gene_id)
   # hash {
