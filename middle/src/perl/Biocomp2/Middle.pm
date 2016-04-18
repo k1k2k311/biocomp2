@@ -9,8 +9,10 @@ sub hello {
 
 # returns same data structure as get_genes()
 sub search {
-  my %search_results;
-  my %genes_db = Biocomp2::DataAccess::get_genes();
+  my ($query) =  @_;
+  my %genes_db = Biocomp2::DataAccess::get_search($query);
+  # convert from hash of arrays to hash of hashes
+  my %genes;
   for my $gene_id (keys %genes_db) {
 #    print "$gene_id\n";
     # deref
@@ -27,12 +29,9 @@ sub search {
     $gene_details{"locus"} = $gene_locus;
     $gene_details{"product"} = $product;
     $gene_details{"protein_id"} = $protein_id;
-    # random filter
-    if (rand() > 0.2) {
-      $search_results{$gene_id} = \%gene_details;
-    }
+    $genes{$gene_id} = \%gene_details;
   }
-  return %search_results;
+  return %genes;
 }
 
 sub get_all_genes {
