@@ -9,7 +9,7 @@ sub handle_show_details;
 my $mw = new MainWindow; 
 my $label = $mw -> Label(-text=>"Choose a gene") -> pack();
 my $button = $mw -> Button(-text => "Show Details", 
-        -command => sub { handle_show_details })
+        -command => sub { handle_show_details($mw) })
     -> pack();
 my $quit_btn = $mw -> Button(-text => "Quit",
 	-command => sub { exit })
@@ -24,6 +24,34 @@ sub handle_show_details() {
   my $current_selection_ref = $genes_lb -> curselection();
   my @current_selection = @{$current_selection_ref}; 
   my $gene_id = @$gene_id_array_ref[$current_selection[0]];
+  my %details = Biocomp2::Middle::get_gene_details($gene_id);
+  my $gene_name = $details{'name'};
+  # make new window
+  my $details_win = $mw->Toplevel( -title => "Gene Details $gene_id");
+  my $gene_id_lbl = $details_win -> Label( -text => 'Gene ID:');
+  my $gene_id_txt = $details_win -> Label( -text => $gene_id);
+  my $gene_name_lbl = $details_win -> Label( -text => 'Gene Name:');
+  my $gene_name_txt = $details_win -> Label( -text => $gene_name);
+  my $accession_lbl = $details_win -> Label( -text => 'Accession:');
+  my $accession_txt = $details_win -> Label( -text => $details{'accession_version'});
+  my $locus_lbl = $details_win -> Label( -text => 'Locus:');
+  my $locus_txt = $details_win -> Label( -text => $details{'locus'});
+  my $product_lbl = $details_win -> Label( -text => 'Product:');
+  my $product_txt = $details_win -> Label( -text => $details{'product'});
+  my $protein_id_lbl = $details_win -> Label( -text => 'Protein ID:');
+  my $protein_id_txt = $details_win -> Label( -text => $details{'protein_id'});
+
+  $gene_id_lbl-> grid($gene_id_txt);
+  $gene_name_lbl -> grid ($gene_name_txt);
+  $accession_lbl -> grid($accession_txt);
+  $locus_lbl -> grid($locus_txt);
+  $product_lbl -> grid($product_txt);
+  $protein_id_lbl -> grid($protein_id_txt);
+
+  my $details_close_btn = $details_win->Button( -text => 'Close', 
+                                                -command => sub { $details_win -> destroy() } );
+  $details_close_btn -> grid();
+                                  
 }
 
 sub get_genes() {

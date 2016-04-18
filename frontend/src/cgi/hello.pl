@@ -4,29 +4,39 @@ use URI::Escape qw( uri_escape );
 use Biocomp2::Middle;
 $cgi = new CGI;
 print $cgi->header();
-my $x = Biocomp2::Middle::hello();
-my %genes = Biocomp2::Middle::get_all_genes();
-my %details = Biocomp2::Middle::get_genes();
+my %genes = Biocomp2::Middle::get_genes();
 print <<__EOF;
 <html>
 <head>
 <style>
 body {background-color:white;}
-h1   {color:blue;}
-tab1 {padding: 30px; color:black;}
+h1   {color:black; text-align: center;}
+tab1 {padding: 40px; color:black;}
 tab2 {color:grey;}
+tab3 {text-align:right;}
 </style>
-   <title>Hello World!</title>
+<title>Chromosome 16</title>
 </head>
 <body>
-<h1>Hello World! $x</h1>
+<h1>Chromosome 16</h1>
+<tab3><form method="GET" action="/search">
+<input type="text" name="search" placeholder="Search the database">
+<input type="submit" value="Search"></form></tab3>
+
 __EOF
-foreach my $key ( keys %genes )
+foreach my $gene_id ( keys %genes )
 {
-	my $uri = 'prog1.cgi?data='.uri_escape($key);
-   	my $html = escapeHTML($key);
-	print qq{<li>key:<tab2><a href="$uri">$html</a></tab2>,  <tab1>value:</tab1><tab2> $genes{$key} </tab2></li> \n};
+	my $uri = 'prog1.pl?data='.uri_escape($gene_id);
+   	my $html = escapeHTML($gene_id);
+	my %details = %{$genes{$gene_id}};
+    	my $gene_name = $details{"name"};
+	my $gene_accession = $details{"accession_version"};
+	my $gene_locus= $details{"locus"};
+ 	my $gene_product = $details{"product"};
+    	my $gene_label = "$gene_name $gene_product";
+	print qq{<li>Gene identifier:<tab2><a href="$uri">$html</a></tab2>, Protein product name:<tab2>$gene_name</tab2>, Genbank accession:<tab2>$gene_accession</tab2>, Location: <tab2>$gene_locus</tab2> </li> \n};
 
 }
+
 print "</body> </html>";
 
