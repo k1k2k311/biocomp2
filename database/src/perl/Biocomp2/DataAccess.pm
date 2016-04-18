@@ -49,9 +49,9 @@ sub get_coordinates {
 
 
 
-    my ($gene_ID) = @_;
-	my $sql = "SELECT gene_ID, exon_count, COOR_start, COOR_end FROM coordinates WHERE gene_ID= $gene_ID";
-	#my $gene_ID = '';	
+    my ($gene_ID_query) = @_;
+	my $sql = "SELECT gene_ID, exon_count, COOR_start, COOR_end FROM coordinates WHERE gene_ID= $gene_ID_query";
+	my $gene_ID = '';	
 	my $exon_count = '';	
 	my $COOR_start = '';
 	my $COOR_end = '';
@@ -76,7 +76,7 @@ sub get_coordinates {
 
 
 
-sub get_coordinat {
+sub get_sequence {
 
 
 
@@ -92,15 +92,31 @@ sub get_coordinat {
 
     my ($gene_ID) = @_;
 	my $sql = "SELECT sequence WHERE gene_ID= $gene_ID";
-	my $exon_count = '';	
-	my $COOR_start = '';
-	my $COOR_end = '';
-	my @cordinates;
-	my %cordinates_hash;
+	my $sequence = '';	
+	my %gene_sequence;
 
-	my $gene_coordinates_ref =  $dbh ->selectrow_hashref($sql);
+	my $sth = $dbh->prepare($sql);
+    $sth->execute;
+    
+    while(($sequence) = $sth->fetchrow_array)
+    {
+    	
+
+		$gene_sequence{$gene_ID}=$sequence;
+
+	
+	}
+	
+	return %gene_sequence;
+
+
 
 	return $sequence;
+
+
+
+
+
 }
 
 
