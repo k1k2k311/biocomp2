@@ -73,18 +73,6 @@ sub get_genes {
   return %genes;
 }
 
-# You must be able to search the database to find an entry based on gene identifier,
-# protein product names, Genbank accession, or chromosomal location.
-sub search {
-  # input: single search field e.g. "N-acetylgalactosamine 6-sulphatase"
-  # is it case sensitive. NO
-  # substring search should work e.g. "acetyl"
-  # @search_results_gene_ids = Biocomp2::DataAccess::search(search_string)
-  # loop through each of the gen_ids:
-  #     Biocomp2::DataAccess::get_gene_details(gene_id)
-  # output: array of above
-}
-
 sub get_gene_details {
   # input: gene ID
   my ($gene_id) = @_;
