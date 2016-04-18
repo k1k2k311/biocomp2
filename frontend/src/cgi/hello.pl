@@ -13,11 +13,16 @@ body {background-color:white;}
 h1   {color:black; text-align: center;}
 tab1 {padding: 40px; color:black;}
 tab2 {color:grey;}
+tab3 {text-align:right;}
 </style>
-   <title>Chromosome 16</title>
+<title>Chromosome 16</title>
 </head>
 <body>
 <h1>Chromosome 16</h1>
+<tab3><form method="GET" action="/search">
+<input type="text" name="search" placeholder="Search the database">
+<input type="submit" value="Search"></form></tab3>
+
 __EOF
 foreach my $gene_id ( keys %genes )
 {
@@ -32,5 +37,6 @@ foreach my $gene_id ( keys %genes )
 	print qq{<li>Gene identifier:<tab2><a href="$uri">$html</a></tab2>, Protein product name:<tab2>$gene_name</tab2>, Genbank accession:<tab2>$gene_accession</tab2>, Location: <tab2>$gene_locus</tab2> </li> \n};
 
 }
+
 print "</body> </html>";
 
