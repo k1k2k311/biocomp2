@@ -10,7 +10,7 @@ use Biocomp2::Middle;
 use Test::More;
 
 is(1, 1, 'one allele should match');
-ok(true, "AAADSARTA should be a peptide");
+ok(1, "true, it is ok");
 
 done_testing();
 
