@@ -7,6 +7,33 @@ sub hello {
   return "do not use";
 }
 
+# returns same data structure as get_genes()
+sub search {
+  my %search_results;
+  my %genes_db = Biocomp2::DataAccess::get_genes();
+  for my $gene_id (keys %genes_db) {
+#    print "$gene_id\n";
+    # deref
+    my @genes_db_array = @{$genes_db{$gene_id}};
+    # make a new hash for the gene details
+    my %gene_details;
+    my $accession_version = $genes_db_array[0];
+    my $gene_name = $genes_db_array[1];
+    my $gene_locus =  $genes_db_array[2];
+    my $product = $genes_db_array[3];
+    my $protein_id = $genes_db_array[4];
+    $gene_details{"accession_version"} = $accession_version;
+    $gene_details{"name"} = $gene_name;
+    $gene_details{"locus"} = $gene_locus;
+    $gene_details{"product"} = $product;
+    $gene_details{"protein_id"} = $protein_id;
+    # random filter
+    if (rand() > 0.2) {
+      $search_results{$gene_id} = \%gene_details;
+    }
+  }
+  return %search_results;
+}
 
 sub get_all_genes {
   my %gene_names = Biocomp2::DataAccess::get_gene_names();
@@ -23,7 +50,6 @@ sub get_all_genes {
 #    }
 # }
 sub get_genes {
-  my %genes_db = Biocomp2::DataAccess::get_genes();
   # convert from hash of arrays to hash of hashes
   my %genes;
   for my $gene_id (keys %genes_db) {
