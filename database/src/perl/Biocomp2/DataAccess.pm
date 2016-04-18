@@ -21,7 +21,7 @@ sub get_search {
 
     my ($search) = @_;
 	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE product LIKE '%$search%' or gene_ID LIKE '%$search%' or map LIKE '%$search%' or acc_ver LIKE '%$search%'";
-	print "MYSQL		", $sql, "\n";	
+	#print "MYSQL		", $sql, "\n";	
 	my $gene_ID = '';	
 	my $acc_ver = '';
 	my $gene = '';
@@ -89,21 +89,15 @@ sub get_sequence {
 
 
     my ($gene_ID_query) = @_;
-	my $sql = "SELECT gene_ID, sequence FROM chromosome16_genes WHERE gene_ID= $gene_ID_query";
+	my $sql = "SELECT sequence FROM chromosome16_genes WHERE gene_ID= $gene_ID_query";
 	my $sequence = '';
-	my $gene_ID = '';	
-	my %gene_sequence;
 
 	my $sth = $dbh->prepare($sql);
     $sth->execute;
 
-	while(($gene_ID, $sequence) = $sth->fetchrow_array)
-    {
-		$gene_sequence{$gene_ID}=$sequence;
-		#print $sequence;
-	}
-	
-	return %gene_sequence;
+	($sequence) = $dbh->selectrow_array($sql);
+
+	return $sequence;
 }
 
 
