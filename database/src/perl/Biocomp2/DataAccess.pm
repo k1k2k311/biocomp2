@@ -100,6 +100,31 @@ sub get_sequence {
 	return $sequence;
 }
 
+sub get_aa_sequence {
+
+	my $dbname   = "ri001";
+	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
+	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
+	my $username = "ri001";
+	my $password = "6xu1ornxo";
+
+	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
+
+
+
+    my ($gene_ID_query) = @_;
+	my $sql = "SELECT aminoacid FROM chromosome16_genes WHERE gene_ID= $gene_ID_query";
+	my $aminoacid = '';
+
+	my $sth = $dbh->prepare($sql);
+    $sth->execute;
+
+	($aminoacid) = $dbh->selectrow_array($sql);
+
+	return $aminoacid;
+}
+
+
 
 sub get_gene_details {
 
