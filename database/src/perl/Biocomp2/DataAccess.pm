@@ -78,8 +78,6 @@ sub get_coordinates {
 
 sub get_sequence {
 
-
-
 	my $dbname   = "ri001";
 	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
 	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
@@ -90,33 +88,22 @@ sub get_sequence {
 
 
 
-    my ($gene_ID) = @_;
-	my $sql = "SELECT sequence WHERE gene_ID= $gene_ID";
-	my $sequence = '';	
+    my ($gene_ID_query) = @_;
+	my $sql = "SELECT gene_ID, sequence FROM chromosome16_genes WHERE gene_ID= $gene_ID_query";
+	my $sequence = '';
+	my $gene_ID = '';	
 	my %gene_sequence;
 
 	my $sth = $dbh->prepare($sql);
     $sth->execute;
-    
-    while(($sequence) = $sth->fetchrow_array)
+
+	while(($gene_ID, $sequence) = $sth->fetchrow_array)
     {
-    	
-
 		$gene_sequence{$gene_ID}=$sequence;
-
-	
+		#print $sequence;
 	}
 	
 	return %gene_sequence;
-
-
-
-	return $sequence;
-
-
-
-
-
 }
 
 
