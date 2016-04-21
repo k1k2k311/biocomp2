@@ -16,8 +16,8 @@ sub get_search {
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
 
-    my ($search) = @_;
-	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE product LIKE '%$search%' or gene_ID LIKE '%$search%' or map LIKE '%$search%' or acc_ver LIKE '%$search%'";
+    my ($search_query) = @_;
+	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE product LIKE '%$search_query%' or gene_ID LIKE '%$search_query%' or map LIKE '%$search_query%' or acc_ver LIKE '%$search_query%'";
 	#print "MYSQL		", $sql, "\n";	
 	my $gene_ID = '';	
 	my $acc_ver = '';
@@ -113,12 +113,6 @@ sub get_gene_details {
 
     my ($gene_query) = @_;
 	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE gene_ID= $gene_query";
-	my $gene_ID = '';	
-	my $acc_ver = '';
-	my $gene = '';
-	my $map = '';
-	my $product = '';
-	my $protID = '';
 
 	my $gene_details_ref =  $dbh ->selectrow_hashref($sql);
 
@@ -224,7 +218,7 @@ foreach my $key (keys %gene_hash)
 	if (defined $dbh) {
 	my $sql = "INSERT INTO chromosome16_genes (gene_ID, acc_ver, complement, gene, sequence, map, cod_start, product, protID, aminoacid) VALUES ('$gene_ID','$acc_ver','$complement', '$gene', '$sequence', '$map', '$cod_start', '$product', '$protID', '$aa')";
 	$dbh->do($sql);
-	#print "INSERT INTO chromosome16_genes  ", $gene_ID, "\n ", $acc_ver, "\n ",$complement, "\n ", $gene, "\n ", $sequence, "\n ", $map, "\n ", $cod_start, "\n ", $product, "\n ", $protID, "\n ", $aa, "\n\n";
+	print "INSERT INTO chromosome16_genes  ", $gene_ID, "\n ", $acc_ver, "\n ",$complement, "\n ", $gene, "\n ", $sequence, "\n ", $map, "\n ", $cod_start, "\n ", $product, "\n ", $protID, "\n ", $aa, "\n\n";
 		
 	}
 	
@@ -240,9 +234,7 @@ foreach my $key (keys %cordinates_hash) {
 	my $exon_count = 0;
 	my $start = '';
 	my $end = '';
-	
 	#print "ROW INDEX	", $row_count++, "\n";
-
 
 	for my $i ( 0 .. $#coordinates_aoa ) {
          my $row = $coordinates_aoa[$i];
@@ -255,12 +247,10 @@ foreach my $key (keys %cordinates_hash) {
 			if ($j == 0) {
 				$start = $row->[$j];
 				#print "Coordinate Start		", $start, "\n";
-
 			}
-			if ($j == 1) {
+			elsif ($j == 1) {
 				$end = $row->[$j];
 				#print "Coordinate End  		", $end, "\n";
-
 			}
 			
          }
@@ -268,7 +258,7 @@ foreach my $key (keys %cordinates_hash) {
 		 if (defined $dbh) {
 			my $sql = "INSERT INTO coordinates (gene_ID, exon_count, COOR_start, COOR_end) VALUES ('$gene_ID','$exon_count','$start','$end')";
 			$dbh->do($sql);
-			#print "INSERT INTO coordinates table  ", $gene_ID, "\n ", "EXON	", $exon_count, "\n ", $start, "\n ",$end, "\n";
+			#print "INSERT INTO coordinates table  ", $gene_ID, "\n ", "EXON	", $exon_count, "\n ", "START	", $start, "\n ", "END	", $end, "\n";
 			#print "INSERT INTO coordinates table  ", $gene_ID, "\n";
 		 }	
 
