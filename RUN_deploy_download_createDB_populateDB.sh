@@ -13,6 +13,9 @@ rm database/src/chrom_CDS_16.gz
 echo "## Parse GeneBank file"
 perl database/src/perl/parse_genebank.pl
 
+echo "## REmoving files"
+rm database/src/chrom_CDS_16.gz
+
 echo "## Adjusting Enviroment"
 ./deploy.sh
 ./perl_env.sh
