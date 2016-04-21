@@ -3,18 +3,15 @@ use strict;
 use warnings;
 use DBI;
 
+my $dbname   = "ri001";
+my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
+my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
+my $username = "ri001";
+my $password = "6xu1ornxo";
 
-#SELECT gene_ID, product FROM chromosome16_genes WHERE product like '%acetyl%';  SELECT gene_ID, product FROM chromosome16_genes WHERE product like '%acl%' or gene_ID like '%5917707%';
-#mysql> SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE product ='F-box and leucine-rich repeat protein 16';
 
 sub get_search {
 
-
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
 
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
@@ -46,23 +43,12 @@ sub get_search {
 
 
 	return %gene_details;
-	
-	
 
 }
 
 sub get_coordinates {
 
-
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
-
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
-
-
 
     my ($gene_ID_query) = @_;
 	my $sql = "SELECT gene_ID, exon_count, COOR_start, COOR_end FROM coordinates WHERE gene_ID= $gene_ID_query";
@@ -81,27 +67,15 @@ sub get_coordinates {
 
 		my @add_cord = ($exon_count, $COOR_start, $COOR_end);
 		push @cordinates, [@add_cord];	
-		
-		
-	
-	}
 
+	}
 	return @cordinates;
 }
 
 
-
 sub get_sequence {
 
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
-
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
-
-
 
     my ($gene_ID_query) = @_;
 	my $sql = "SELECT sequence FROM chromosome16_genes WHERE gene_ID= $gene_ID_query";
@@ -117,15 +91,7 @@ sub get_sequence {
 
 sub get_aa_sequence {
 
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
-
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
-
-
 
     my ($gene_ID_query) = @_;
 	my $sql = "SELECT aminoacid FROM chromosome16_genes WHERE gene_ID= $gene_ID_query";
@@ -140,15 +106,7 @@ sub get_aa_sequence {
 }
 
 
-
 sub get_gene_details {
-
-
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
 
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
@@ -172,11 +130,6 @@ sub get_gene_details {
 
 
 sub get_gene_names {
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
 	
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 	
@@ -204,13 +157,6 @@ sub get_gene_names {
 
 
 sub get_genes {
-
-	
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
 
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
@@ -242,25 +188,13 @@ sub get_genes {
 }
 
 sub save_genes {
-	
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
 
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
-
-	
-	
 	my($gene_ref, $cordinates_hash_ref) = @_;
 	print "Saving \n\n";
 	my %cordinates_hash = %$cordinates_hash_ref;
 	my %gene_hash = %$gene_ref;
-
-
-
 
 foreach my $key (keys %gene_hash)
 {
@@ -341,8 +275,6 @@ foreach my $key (keys %cordinates_hash) {
      }
 
 }
-
-
 
 
 }
