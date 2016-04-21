@@ -107,10 +107,11 @@ sub get_gene_details {
 #    print %exon;
 #    print "\n";
     push @exons, \%exon;
-    $coding_sequence = $coding_sequence.substr($sequence, $start, $end-$start);
+    my $exon_sequence = substr($sequence, $start, $end-$start+1);
+    $coding_sequence = $coding_sequence.$exon_sequence;
   }
   $gene_details{'exons'} = \@exons;
-  $gene_details{'coding_sequence'} = $sequence;
+  $gene_details{'coding_sequence'} = $coding_sequence;
   my $aa_sequence = Biocomp2::DataAccess::get_aa_sequence($gene_id);
   $gene_details{'aa_sequence'} = $aa_sequence;
   return %gene_details;
