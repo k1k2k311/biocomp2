@@ -3,24 +3,21 @@ use strict;
 use warnings;
 use DBI;
 
+my $dbname   = "ri001";
+my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
+my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
+my $username = "ri001";
+my $password = "6xu1ornxo";
 
-#SELECT gene_ID, product FROM chromosome16_genes WHERE product like '%acetyl%';  SELECT gene_ID, product FROM chromosome16_genes WHERE product like '%acl%' or gene_ID like '%5917707%';
-#mysql> SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE product ='F-box and leucine-rich repeat protein 16';
 
 sub get_search {
 
 
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
-
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
 
-    my ($search) = @_;
-	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE product LIKE '%$search%' or gene_ID LIKE '%$search%' or map LIKE '%$search%' or acc_ver LIKE '%$search%'";
+    my ($search_query) = @_;
+	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE product LIKE '%$search_query%' or gene_ID LIKE '%$search_query%' or map LIKE '%$search_query%' or acc_ver LIKE '%$search_query%'";
 	#print "MYSQL		", $sql, "\n";	
 	my $gene_ID = '';	
 	my $acc_ver = '';
@@ -46,23 +43,12 @@ sub get_search {
 
 
 	return %gene_details;
-	
-	
 
 }
 
 sub get_coordinates {
 
-
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
-
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
-
-
 
     my ($gene_ID_query) = @_;
 	my $sql = "SELECT gene_ID, exon_count, COOR_start, COOR_end FROM coordinates WHERE gene_ID= $gene_ID_query";
@@ -81,27 +67,15 @@ sub get_coordinates {
 
 		my @add_cord = ($exon_count, $COOR_start, $COOR_end);
 		push @cordinates, [@add_cord];	
-		
-		
-	
-	}
 
+	}
 	return @cordinates;
 }
 
 
-
 sub get_sequence {
 
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
-
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
-
-
 
     my ($gene_ID_query) = @_;
 	my $sql = "SELECT sequence FROM chromosome16_genes WHERE gene_ID= $gene_ID_query";
@@ -117,15 +91,7 @@ sub get_sequence {
 
 sub get_aa_sequence {
 
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
-
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
-
-
 
     my ($gene_ID_query) = @_;
 	my $sql = "SELECT aminoacid FROM chromosome16_genes WHERE gene_ID= $gene_ID_query";
@@ -140,27 +106,13 @@ sub get_aa_sequence {
 }
 
 
-
 sub get_gene_details {
-
-
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
 
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
 
     my ($gene_query) = @_;
 	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE gene_ID= $gene_query";
-	my $gene_ID = '';	
-	my $acc_ver = '';
-	my $gene = '';
-	my $map = '';
-	my $product = '';
-	my $protID = '';
 
 	my $gene_details_ref =  $dbh ->selectrow_hashref($sql);
 
@@ -172,11 +124,6 @@ sub get_gene_details {
 
 
 sub get_gene_names {
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
 	
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 	
@@ -204,13 +151,6 @@ sub get_gene_names {
 
 
 sub get_genes {
-
-	
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
 
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
@@ -242,25 +182,13 @@ sub get_genes {
 }
 
 sub save_genes {
-	
-	my $dbname   = "ri001";
-	my $dbhost   = "hope.cryst.bbk.ac.uk";				#hope.cryst.bbk.ac.uk
-	my $dbsource = "dbi:mysql:database=$dbname;host=$dbhost";
-	my $username = "ri001";
-	my $password = "6xu1ornxo";
 
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
-
-	
-	
 	my($gene_ref, $cordinates_hash_ref) = @_;
 	print "Saving \n\n";
 	my %cordinates_hash = %$cordinates_hash_ref;
 	my %gene_hash = %$gene_ref;
-
-
-
 
 foreach my $key (keys %gene_hash)
 {
@@ -290,7 +218,7 @@ foreach my $key (keys %gene_hash)
 	if (defined $dbh) {
 	my $sql = "INSERT INTO chromosome16_genes (gene_ID, acc_ver, complement, gene, sequence, map, cod_start, product, protID, aminoacid) VALUES ('$gene_ID','$acc_ver','$complement', '$gene', '$sequence', '$map', '$cod_start', '$product', '$protID', '$aa')";
 	$dbh->do($sql);
-	#print "INSERT INTO chromosome16_genes  ", $gene_ID, "\n ", $acc_ver, "\n ",$complement, "\n ", $gene, "\n ", $sequence, "\n ", $map, "\n ", $cod_start, "\n ", $product, "\n ", $protID, "\n ", $aa, "\n\n";
+	print "INSERT INTO chromosome16_genes  ", $gene_ID, "\n ", $acc_ver, "\n ",$complement, "\n ", $gene, "\n ", $sequence, "\n ", $map, "\n ", $cod_start, "\n ", $product, "\n ", $protID, "\n ", $aa, "\n\n";
 		
 	}
 	
@@ -306,9 +234,7 @@ foreach my $key (keys %cordinates_hash) {
 	my $exon_count = 0;
 	my $start = '';
 	my $end = '';
-	
 	#print "ROW INDEX	", $row_count++, "\n";
-
 
 	for my $i ( 0 .. $#coordinates_aoa ) {
          my $row = $coordinates_aoa[$i];
@@ -321,12 +247,10 @@ foreach my $key (keys %cordinates_hash) {
 			if ($j == 0) {
 				$start = $row->[$j];
 				#print "Coordinate Start		", $start, "\n";
-
 			}
-			if ($j == 1) {
+			elsif ($j == 1) {
 				$end = $row->[$j];
 				#print "Coordinate End  		", $end, "\n";
-
 			}
 			
          }
@@ -334,15 +258,13 @@ foreach my $key (keys %cordinates_hash) {
 		 if (defined $dbh) {
 			my $sql = "INSERT INTO coordinates (gene_ID, exon_count, COOR_start, COOR_end) VALUES ('$gene_ID','$exon_count','$start','$end')";
 			$dbh->do($sql);
-			#print "INSERT INTO coordinates table  ", $gene_ID, "\n ", "EXON	", $exon_count, "\n ", $start, "\n ",$end, "\n";
+			#print "INSERT INTO coordinates table  ", $gene_ID, "\n ", "EXON	", $exon_count, "\n ", "START	", $start, "\n ", "END	", $end, "\n";
 			#print "INSERT INTO coordinates table  ", $gene_ID, "\n";
 		 }	
 
      }
 
 }
-
-
 
 
 }
