@@ -90,7 +90,29 @@ sub get_gene_details {
   $gene_details{'protein_id'} = $db_gene_details{'protID'};
   # get sequence
   my $sequence = Biocomp2::DataAccess::get_sequence($gene_id);
-  $gene_details{'sequence'} = $sequence;
+  $gene_details{'dna_sequence'} = $sequence;
+  
+  my @coordinates = Biocomp2::DataAccess::get_coordinates($gene_id);
+  my @exons;
+  my $coding_sequence;
+  foreach my $co_ar (@coordinates) {
+    my @a = @{$co_ar};
+#    my $exon_number = $a[0];
+    my $start = $a[1];
+    my $end = $a[2];
+    my %exon;
+    $exon{'number'} = $a[0];
+    $exon{'start'} = $a[1];
+    $exon{'end'} = $a[2];
+#    print %exon;
+#    print "\n";
+    push @exons, \%exon;
+    $coding_sequence = $coding_sequence.substr($sequence, $start, $end-$start);
+  }
+  $gene_details{'exons'} = \@exons;
+  $gene_details{'coding_sequence'} = $sequence;
+  my $aa_sequence = Biocomp2::DataAccess::get_aa_sequence($gene_id);
+  $gene_details{'aa_sequence'} = $aa_sequence;
   return %gene_details;
 
   # Biocomp2::DataAccess::get_gene_sequences(gene_id)
