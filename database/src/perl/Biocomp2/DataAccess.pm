@@ -238,7 +238,8 @@ foreach my $key (keys %cordinates_hash) {
 
 	for my $i ( 0 .. $#coordinates_aoa ) {
          my $row = $coordinates_aoa[$i];
-		 #print "Exon count			", $exon_count++, "\n";
+		 $exon_count++;
+		 #print "Exon count			", $exon_count, "\n";
 		 
          for my  $j ( 0 .. $#{$row} ) {
             #print "element $i $j is $row->[$j]\n";
