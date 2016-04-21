@@ -17,7 +17,12 @@ sub get_search {
 
 
     my ($search_query) = @_;
-	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE product LIKE '%$search_query%' or gene_ID LIKE '%$search_query%' or map LIKE '%$search_query%' or acc_ver LIKE '%$search_query%'";
+	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID ".
+		 		"FROM chromosome16_genes ".
+				"WHERE product LIKE '%$search_query%' ".
+				"OR gene_ID LIKE '%$search_query%' ".
+				"OR map LIKE '%$search_query%' ".
+				"OR acc_ver LIKE '%$search_query%'";
 	#print "MYSQL		", $sql, "\n";	
 	my $gene_ID = '';	
 	my $acc_ver = '';
@@ -51,21 +56,28 @@ sub get_coordinates {
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
     my ($gene_ID_query) = @_;
-	my $sql = "SELECT gene_ID, exon_count, COOR_start, COOR_end FROM coordinates WHERE gene_ID= $gene_ID_query";
+	my $sql = "SELECT co.gene_ID, co.exon_count, co.COOR_start, co.COOR_end, ch.complement, ch.cod_start ".
+				"FROM coordinates co, chromosome16_genes ch ".
+				"WHERE co.gene_ID = ch.gene_ID ".
+				"AND ch.gene_ID= $gene_ID_query";
+
+	print "@@@@@@@@@@@@@@@", $sql;
 	my $gene_ID = '';	
 	my $exon_count = '';	
 	my $COOR_start = '';
 	my $COOR_end = '';
+	my $complement = '';
+	my $cod_start = '';
 	my @cordinates;
 	my %cordinates_hash;
 
     my $sth = $dbh->prepare($sql);
     $sth->execute;
 
-    while(($gene_ID, $exon_count, $COOR_start, $COOR_end) = $sth->fetchrow_array)
+    while(($gene_ID, $exon_count, $COOR_start, $COOR_end, $complement, $cod_start) = $sth->fetchrow_array)
     {
 
-		my @add_cord = ($exon_count, $COOR_start, $COOR_end);
+		my @add_cord = ($exon_count, $COOR_start, $COOR_end, $complement, $cod_start);
 		push @cordinates, [@add_cord];	
 
 	}
@@ -78,7 +90,9 @@ sub get_sequence {
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
     my ($gene_ID_query) = @_;
-	my $sql = "SELECT sequence FROM chromosome16_genes WHERE gene_ID= $gene_ID_query";
+	my $sql = "SELECT sequence ".
+				"FROM chromosome16_genes ".
+				"WHERE gene_ID= $gene_ID_query";
 	my $sequence = '';
 
 	my $sth = $dbh->prepare($sql);
@@ -94,7 +108,9 @@ sub get_aa_sequence {
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
     my ($gene_ID_query) = @_;
-	my $sql = "SELECT aminoacid FROM chromosome16_genes WHERE gene_ID= $gene_ID_query";
+	my $sql = "SELECT aminoacid ".
+				"FROM chromosome16_genes ".
+				"WHERE gene_ID= $gene_ID_query";
 	my $aminoacid = '';
 
 	my $sth = $dbh->prepare($sql);
@@ -112,7 +128,9 @@ sub get_gene_details {
 
 
     my ($gene_query) = @_;
-	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes WHERE gene_ID= $gene_query";
+	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID ".
+				"FROM chromosome16_genes ".
+				"WHERE gene_ID= $gene_query";
 
 	my $gene_details_ref =  $dbh ->selectrow_hashref($sql);
 
@@ -127,7 +145,8 @@ sub get_gene_names {
 	
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 	
-	my $sql = 'SELECT gene_ID, acc_ver  FROM chromosome16_genes';
+	my $sql = "SELECT gene_ID, acc_ver ".
+				"FROM chromosome16_genes";
 	my $gene_ID = '';
 	my $acc_ver = '';
 	my %gene_names;
@@ -154,7 +173,8 @@ sub get_genes {
 
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
-	my $sql = 'SELECT gene_ID, acc_ver, gene, map, product, protID  FROM chromosome16_genes';
+	my $sql = "SELECT gene_ID, acc_ver, gene, map, product, protID ".
+				"FROM chromosome16_genes";
 
 	my $gene_ID = '';
 	my $acc_ver = '';
@@ -216,7 +236,8 @@ foreach my $key (keys %gene_hash)
 	#print "@@@@@@@@@@@@@@@\n\n";
 
 	if (defined $dbh) {
-	my $sql = "INSERT INTO chromosome16_genes (gene_ID, acc_ver, complement, gene, sequence, map, cod_start, product, protID, aminoacid) VALUES ('$gene_ID','$acc_ver','$complement', '$gene', '$sequence', '$map', '$cod_start', '$product', '$protID', '$aa')";
+	my $sql = "INSERT INTO chromosome16_genes (gene_ID, acc_ver, complement, gene, sequence, map, cod_start, product, protID, aminoacid) ".
+				"VALUES ('$gene_ID','$acc_ver','$complement', '$gene', '$sequence', '$map', '$cod_start', '$product', '$protID', '$aa')";
 	$dbh->do($sql);
 	#print "INSERT INTO chromosome16_genes  ", $gene_ID, "\n ", $acc_ver, "\n ",$complement, "\n ", $gene, "\n ", $sequence, "\n ", $map, "\n ", $cod_start, "\n ", $product, "\n ", $protID, "\n ", $aa, "\n\n";
 		
@@ -238,7 +259,8 @@ foreach my $key (keys %cordinates_hash) {
 
 	for my $i ( 0 .. $#coordinates_aoa ) {
          my $row = $coordinates_aoa[$i];
-		 #print "Exon count			", $exon_count++, "\n";
+		 $exon_count++;
+		 #print "Exon count			", $exon_count, "\n";
 		 
          for my  $j ( 0 .. $#{$row} ) {
             #print "element $i $j is $row->[$j]\n";
@@ -256,7 +278,8 @@ foreach my $key (keys %cordinates_hash) {
          }
 
 		 if (defined $dbh) {
-			my $sql = "INSERT INTO coordinates (gene_ID, exon_count, COOR_start, COOR_end) VALUES ('$gene_ID','$exon_count','$start','$end')";
+			my $sql = "INSERT INTO coordinates (gene_ID, exon_count, COOR_start, COOR_end) ".
+						"VALUES ('$gene_ID','$exon_count','$start','$end')";
 			$dbh->do($sql);
 			#print "INSERT INTO coordinates table  ", $gene_ID, "\n ", "EXON	", $exon_count, "\n ", "START	", $start, "\n ", "END	", $end, "\n";
 			#print "INSERT INTO coordinates table  ", $gene_ID, "\n";

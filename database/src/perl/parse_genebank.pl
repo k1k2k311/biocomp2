@@ -6,7 +6,7 @@ use Data::Dumper qw(Dumper);
 use Biocomp2::DataAccess;
 
 # Open data file
-my $data_file = "../chrom_CDS_16";
+my $data_file = "database/src/chrom_CDS_16";
 chomp $data_file;
 
 
@@ -46,49 +46,12 @@ while ($entry = get_entry($file) ) {
 	#print $features;
 	#print $sequence;
 
-
 	my $gene_ID = '';
 	my $acc_ver = '';
 	my $locus = '';
-	my @annotation;
-	@annotation = split /^/m, $annotation;			    # split to array by start of the line
-	#print "Size: ",scalar @annotation,"\n";
-	#print @annotation;
 
-	for my $annotation_line (@annotation) {
-	#for my $annotation_line ($annotation) {
-		if($annotation_line =~ /^LOCUS/) {              # Get whole line begining with LOCUS
-			$annotation_line =~ s/^LOCUS\s*//;
-			chomp($locus = $annotation_line);
-			#print $locus;
-		}
+	($gene_ID, $acc_ver, $locus) = parse_annotation($annotation);
 
-
-		elsif($annotation_line =~ /^ACCESSION/) {
-			$annotation_line =~ s/^ACCESSION\s*//;      # Get whole line begining with ACCESION
-			chomp(my $accession = $annotation_line);
-			#print "Accesion	", $accession, "\n";
-
-
-		}
-		elsif($annotation_line =~ /^VERSION/) {         # Get whole line begining with VERSION
-			$annotation_line =~ s/^VERSION\s*//;
-			my $version = $annotation_line;
-			#print $version;
-			if ( $version =~ m/^([A-Za-z0-9].*)\s*GI:(.*\n)/ ) {        # Get numbers and letters upstream 'GI:' and everithing downstream = gene_ID
-
-				#print "VERSION  ", $1, "\n\n";
-
-				chomp($acc_ver = $1);
-				chomp($gene_ID = $2);
-				print "GeneID		", $gene_ID, "\n";
-				#print "AccVersion	", $acc_ver, "\n";
-
-			}
-		}
-
-
-	} # For annotation
 
 	my ($cds, @cordinates, $complement, $gene, $map, $st_name, $cod_start, $product, $protID, $aa);         #Iniciate variables
 
@@ -198,8 +161,9 @@ while ($entry = get_entry($file) ) {
 		}
 		if($features_line =~ /\/translation=(.[^"]*?)"/s){			        # Match /translation= and everything but " until "
 			$aa = $1;
-			$aa =~ s/"//g;
-			#print "ProteinAA	", $aa, "\n";
+			$aa =~ s/"//g;												   # Remove the "
+			$aa =~ s/\s*\d*//g;                                            # Remove all the spaces and digits from sequence
+			print "ProteinAA	", $aa, "\n";
 			#print "COUNT  ", $count++, "\n";
 		}
 
@@ -327,6 +291,48 @@ sub split_entry {
 }
 
 
+sub parse_annotation {
 
 
+	my ($annotation) = @_;
+
+	my $gene_ID = '';
+	my $acc_ver = '';
+	my $locus = '';
+	my @annotation;
+
+	@annotation = split /^/m, $annotation;			    # split to array by start of the line
+	#print "Size: ",scalar @annotation,"\n";
+	#print @annotation;
+
+	for my $annotation_line (@annotation) {
+	#for my $annotation_line ($annotation) {
+		if($annotation_line =~ /^LOCUS/) {              # Get whole line begining with LOCUS
+			$annotation_line =~ s/^LOCUS\s*//;
+			chomp($locus = $annotation_line);
+			#print $locus;
+		}
+		elsif($annotation_line =~ /^ACCESSION/) {
+			$annotation_line =~ s/^ACCESSION\s*//;      # Get whole line begining with ACCESION
+			chomp(my $accession = $annotation_line);
+			#print "Accesion	", $accession, "\n";
+		}
+		elsif($annotation_line =~ /^VERSION/) {         # Get whole line begining with VERSION
+			$annotation_line =~ s/^VERSION\s*//;
+			my $version = $annotation_line;
+			#print $version;
+			if ( $version =~ m/^([A-Za-z0-9].*)\s*GI:(.*\n)/ ) {        # Get numbers and letters upstream 'GI:' and everithing downstream = gene_ID
+
+				#print "VERSION  ", $1, "\n\n";
+
+				chomp($acc_ver = $1);
+				chomp($gene_ID = $2);
+				print "GeneID		", $gene_ID, "\n";
+				#print "AccVersion	", $acc_ver, "\n";
+			}
+		}
+	} # For annotation
+
+return($gene_ID, $acc_ver, $locus);
+}
 
