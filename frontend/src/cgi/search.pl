@@ -4,7 +4,8 @@ use URI::Escape qw( uri_escape );
 use Biocomp2::Middle;
 $cgi = new CGI;
 print $cgi->header();
-my %genes = Biocomp2::Middle::get_genes();
+my $gene_id = $query->param('search');
+my %result = Biocomp2::Middle::search($gene_id);
 print <<__EOF;
 <html>
 <head><link rel="stylesheet" type="text/css" href="http://student.cryst.bbk.ac.uk/~ea001/style.css">
@@ -19,21 +20,23 @@ print <<__EOF;
 __EOF
 print "<table>\n";
 print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>Genbank accession</td><td>Location</td></tr>";
-foreach my $gene_id ( keys %genes )
+
+foreach my $gene_id ( keys %result )
 {
 	my $uri = 'prog1.pl?data='.uri_escape($gene_id);
    	my $html = escapeHTML($gene_id);
 	my %details = %{$genes{$gene_id}};
-    	my $gene_name = $details{"name"};
-	my $gene_accession = $details{"accession_version"};
-	my $gene_locus= $details{"locus"};
- 	my $gene_product = $details{"product"};
+    	my $gene_name = $result{"name"};
+	my $gene_accession = $result{"accession_version"};
+	my $gene_locus= $result{"locus"};
+ 	my $gene_product = $result{"product"};
     	my $gene_label = "$gene_name $gene_product";
 	print "  <tr>\n";
 	print qq{<td><tab2><a href="$uri">$html</a></tab2></td> <td><tab2>$gene_name</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus</tab2></td> \n};
 	print " </tr>\n";
 
 }
+
 print "</thead>";print "</table>\n";
 print "</body> </html>";
 

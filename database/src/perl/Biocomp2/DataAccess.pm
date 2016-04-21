@@ -218,7 +218,7 @@ foreach my $key (keys %gene_hash)
 	if (defined $dbh) {
 	my $sql = "INSERT INTO chromosome16_genes (gene_ID, acc_ver, complement, gene, sequence, map, cod_start, product, protID, aminoacid) VALUES ('$gene_ID','$acc_ver','$complement', '$gene', '$sequence', '$map', '$cod_start', '$product', '$protID', '$aa')";
 	$dbh->do($sql);
-	print "INSERT INTO chromosome16_genes  ", $gene_ID, "\n ", $acc_ver, "\n ",$complement, "\n ", $gene, "\n ", $sequence, "\n ", $map, "\n ", $cod_start, "\n ", $product, "\n ", $protID, "\n ", $aa, "\n\n";
+	#print "INSERT INTO chromosome16_genes  ", $gene_ID, "\n ", $acc_ver, "\n ",$complement, "\n ", $gene, "\n ", $sequence, "\n ", $map, "\n ", $cod_start, "\n ", $product, "\n ", $protID, "\n ", $aa, "\n\n";
 		
 	}
 	
@@ -238,7 +238,7 @@ foreach my $key (keys %cordinates_hash) {
 
 	for my $i ( 0 .. $#coordinates_aoa ) {
          my $row = $coordinates_aoa[$i];
-		 print "Exon count			", $exon_count++, "\n";
+		 #print "Exon count			", $exon_count++, "\n";
 		 
          for my  $j ( 0 .. $#{$row} ) {
             #print "element $i $j is $row->[$j]\n";

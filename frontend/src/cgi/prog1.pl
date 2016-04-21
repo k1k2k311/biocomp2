@@ -6,19 +6,12 @@ my $query = new CGI;print $query->header();my $gene_id = $query->param('data')
 my %details = Biocomp2::Middle::get_gene_details($gene_id);
 print <<__EOF;
 <html>
-<head>
-<style>
-body {background-color:white;}
-h1 {    color: #f7f7f7;
-    text-align: center;    font-size: 50px;    font-weight: bold;    background-image: url(//static.pubmed.gov/portal/portal3rc.fcgi/4082620/img/32161);    margin: 0;    padding: 33px 75px 33px 75px;    line-height: 1px;}
-tab1 {padding: 40px; color:black;}
-tab2 {color:grey;}
-tab3 {text-align:right;}</style>
+<head><link rel="stylesheet" type="text/css" href="http://student.cryst.bbk.ac.uk/~ea001/style.css">
 <title>Chromosome 16</title>
 </head>
 <body>
 <h1>Chromosome 16</h1>
-<tab3><form method="GET" action="/search">
+<tab3><form method="GET" action="search.pl">
 <input type="text" name="search" placeholder="Search the database">
 <input type="submit" value="Search"></form></tab3>
 
