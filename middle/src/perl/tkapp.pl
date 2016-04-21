@@ -45,6 +45,13 @@ sub handle_show_details() {
   # add newlines
   my $sequence_with_lines = add_newlines($sequence);
   my $sequence_txt = $details_win -> Label( -text => "$sequence_with_lines");
+  # lookup coding regions
+  my $coding_sequence = $details{'coding_sequence'};
+  my $coding_sequence_with_lines = add_newlines($coding_sequence);
+  my $coding_sequence_lbl = $details_win -> Label( -text => 'Coding sequence:');
+  my $coding_sequence_txt = $details_win -> Label( -text => $coding_sequence_with_lines);
+  
+  print "coding sequence: $coding_sequence";
   
   $gene_id_lbl-> grid($gene_id_txt);
   $gene_name_lbl -> grid ($gene_name_txt);
@@ -53,6 +60,7 @@ sub handle_show_details() {
   $product_lbl -> grid($product_txt);
   $protein_id_lbl -> grid($protein_id_txt);
   $sequence_lbl -> grid($sequence_txt);
+  $coding_sequence_lbl -> grid($coding_sequence_txt);
 
   my $details_close_btn = $details_win->Button( -text => 'Close', 
                                                 -command => sub { $details_win -> destroy() } );
@@ -83,10 +91,10 @@ sub add_newlines() {
   while ($sequence) {
     my $line = substr $sequence, 0, $line_length;
     $sequence = substr $sequence, $line_length;
-    print "line: $line\n";
+#    print "line: $line\n";
     push @lines, $line;
   }
   my $joined = join("\n",@lines);
-  print "joined: $joined\n";
+#  print "joined: $joined\n";
   return $joined;
 }
