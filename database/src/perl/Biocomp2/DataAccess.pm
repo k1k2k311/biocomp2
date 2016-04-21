@@ -61,7 +61,6 @@ sub get_coordinates {
 				"WHERE co.gene_ID = ch.gene_ID ".
 				"AND ch.gene_ID= $gene_ID_query";
 
-	print "@@@@@@@@@@@@@@@", $sql;
 	my $gene_ID = '';	
 	my $exon_count = '';	
 	my $COOR_start = '';

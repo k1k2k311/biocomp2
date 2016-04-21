@@ -163,7 +163,7 @@ while ($entry = get_entry($file) ) {
 			$aa = $1;
 			$aa =~ s/"//g;												   # Remove the "
 			$aa =~ s/\s*\d*//g;                                            # Remove all the spaces and digits from sequence
-			print "ProteinAA	", $aa, "\n";
+			#print "ProteinAA	", $aa, "\n";
 			#print "COUNT  ", $count++, "\n";
 		}
 
