@@ -34,8 +34,12 @@ sub dump_details {
     $exon_total_length = $exon_total_length + $exon_length;
     print "      length: $exon_length\n";
   }
-  print "    exon total length: $exon_total_length\n";
+  print "    exon total length: $exon_total_length\n";  
+  my $coding_sequence = $details{'coding_sequence'};
+  print "  coding sequence  : $coding_sequence\n";
+
   my $aa_sequence = $details{'aa_sequence'};
   print "  aa sequence      : $aa_sequence\n";
   print "    length: ".length($aa_sequence)."\n";
+
 }
