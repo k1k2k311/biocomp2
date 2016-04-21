@@ -2,7 +2,9 @@
 use CGI		qw( escapeHTML );
 use URI::Escape qw( uri_escape );
 use Biocomp2::Middle;
-my $query = new CGI;print $query->header();my $gene_id = $query->param('data');
+my $query = new CGI;print $query->header();
+# the gene_id variable is what the user pressed to view detailsmy $gene_id = $query->param('data');
+# getting results from middle layer's subroutine 
 my %details = Biocomp2::Middle::get_gene_details($gene_id);
 print <<__EOF;
 <html>
@@ -18,12 +20,11 @@ print <<__EOF;
 __EOF
 
 print "<table>\n";
+# print out the result we got from the subroutine
 print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>Genbank accession</td><td>Location</td></tr>";
 	my $gene_name = $details{"name"};
 	my $gene_accession = $details{"accession_version"};
 	my $gene_locus= $details{"locus"};
- 	my $gene_product = $details{"product"};
-    	my $gene_label = "$gene_name $gene_product";
 	print "  <tr>\n";
 	print qq{<td><tab2>$gene_id</tab2></td> <td><tab2>$gene_name</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus</tab2></td> \n};
 	print " </tr>\n";
