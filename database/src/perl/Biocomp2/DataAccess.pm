@@ -51,21 +51,28 @@ sub get_coordinates {
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
     my ($gene_ID_query) = @_;
-	my $sql = "SELECT gene_ID, exon_count, COOR_start, COOR_end FROM coordinates WHERE gene_ID= $gene_ID_query";
+	my $sql = "SELECT co.gene_ID, co.exon_count, co.COOR_start, co.COOR_end, ch.complement, ch.cod_start ".
+				"FROM coordinates co, chromosome16_genes ch ".
+				"WHERE co.gene_ID = ch.gene_ID ".
+				"AND ch.gene_ID= $gene_ID_query";
+
+	print "@@@@@@@@@@@@@@@", $sql;
 	my $gene_ID = '';	
 	my $exon_count = '';	
 	my $COOR_start = '';
 	my $COOR_end = '';
+	my $complement = '';
+	my $cod_start = '';
 	my @cordinates;
 	my %cordinates_hash;
 
     my $sth = $dbh->prepare($sql);
     $sth->execute;
 
-    while(($gene_ID, $exon_count, $COOR_start, $COOR_end) = $sth->fetchrow_array)
+    while(($gene_ID, $exon_count, $COOR_start, $COOR_end, $complement, $cod_start) = $sth->fetchrow_array)
     {
 
-		my @add_cord = ($exon_count, $COOR_start, $COOR_end);
+		my @add_cord = ($exon_count, $COOR_start, $COOR_end, $complement, $cod_start);
 		push @cordinates, [@add_cord];	
 
 	}
