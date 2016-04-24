@@ -43,15 +43,6 @@ sub get_enzyme_sites {
     my $cut_pos = $start_pos + $enzyme_cut_offset;
     push @sites, $cut_pos;
   }
-  # and reverse
-  my $reverse_regexp = Biocomp2::DnaTranslator::reverse_complement($enzyme_regexp);
-  while ($dna_sequence =~ /$reverse_regexp/g) {
-    my $end_pos = pos($dna_sequence);
-    my $start_pos = $end_pos - (length $reverse_regexp);
-    my $cut_pos = $end_pos - $enzyme_cut_offset;
-    print "REVERSE: $cut_pos\n";
-    push @sites, $cut_pos;
-  }
   return @sites;
 }
 
