@@ -23,8 +23,7 @@ print <<__EOF;
 <input type="submit" value="Search"></form></tab3>
 
 __EOF
-print "semina";
-exit;
+
 print "<table>\n";
 # print out the result we got from the subroutine
 print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>Genbank accession</td><td>Location</td></tr>";
@@ -32,23 +31,56 @@ print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>G
 	my $gene_accession = $details{"accession_version"};
 	my $gene_locus= $details{"locus"};
 	my $dna_seq= $details{"dna_sequence"};
-exit;
 	my $length=length($dna_seq);
 	my $i=0;
-	my @array_seq;
+	my $j=$length;
+	my $exons = $details{'exons'};
+  	my @exons = @{$exons};
 
 	
 	print "  <tr>\n";
 	print qq{<td><tab2>$gene_id</tab2></td> <td><tab2>$gene_name</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus</tab2></td> \n\n\n};
-exit;
-	while ($i<=$length){
-		my $chopped= substr($dna_seq,$i,100);
-		push @array_seq, $chopped;
-		$i=$i+100;
-	}
-	print @array_seq;
-
 	print " </tr>\n";
+	
+	my @array_seq;	  	while($dna_seq) {
+		my $base=chop($dna_seq);   		push (@{$array_seq[$j]}, $base);
+		my $color= shouldHighlight($j,\@exons);
+		push (@{$array_seq[$j]}, $color);	
+		$j=$j-1;  		}	
+	my $counter=0;
+	foreach my $element( @array_seq)
+	{	
+		my @base_and_highlight=@{$element};
+		my ($base, $highlight)=@base_and_highlight;
+		if ($highlight==1){
+			print qq{<mark>$base</mark>};
+		}
+		else{
+			print $base;
+		}
+		$counter++;
+		if ($counter%100==0){
+			print "<br/>";
+		}
+	}
+
+	
 print "</thead>";
 print "</table>\n";
 print "</body> </html>";
+
+sub shouldHighlight{
+	my ($position, $exons)= @_;
+	my @exons=@{$exons};
+	for my $exon_hr (@exons) {
+   		my %exon = %{$exon_hr};
+    		my $exon_number = $exon{'number'};
+    		my $start = $exon{'start'};
+    		my $end = $exon{'end'};
+		if (($position>=$start) and ($position<=$end)){
+			return 1;
+		}
+		
+	}
+	return 0;
+}
