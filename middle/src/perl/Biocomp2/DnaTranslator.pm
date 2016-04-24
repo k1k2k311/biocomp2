@@ -91,6 +91,10 @@ sub translate {
      my $codon= substr $coding_sequence, 0, 3;
      $coding_sequence = substr $coding_sequence, 3;
      my $residue = $translation_table{$codon};
+     if (! defined $residue) {
+       # sometimes there is a 'y' as a base or some ambiguity. ignore it
+       $residue = "";
+     }
      # append residue
      $residues .= $residue;
      push @codons, $codon;
