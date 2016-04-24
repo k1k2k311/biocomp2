@@ -127,4 +127,19 @@ sub translate_all_frames {
   $framesToResidues{"N2"} = translate(substr $complement, 2);
   return %framesToResidues;
 }
+
+sub frameshift {
+  my ($dna_sequence, $frame) = @_;
+  my ($direction, $offset) = split //, $frame;
+  my $sequence = $dna_sequence;
+  # negative needs reverse
+  if ("N" eq $direction) {
+    $sequence = reverse_complement $dna_sequence;
+  }
+  $sequence = substr $sequence, $offset;
+  my $seq_length = length $sequence;
+  my $new_length = $seq_length - ($seq_length % 3);
+  $sequence = substr $sequence, 0, $new_length;
+  return $sequence;
+}
 1;

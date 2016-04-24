@@ -36,61 +36,23 @@ sub dump_details {
     print "      length: $exon_length\n";
   }
   print "    exon total length: $exon_total_length\n";  
-  my $coding_sequence = $details{'coding_sequence'};
-  if (! defined $coding_sequence) {
-    $coding_sequence = "undefined";
+  my $coding_sequence_db = $details{'coding_sequence_db'};
+  if (! defined $coding_sequence_db) {
+    $coding_sequence_db = "undefined";
   }
-  print "  coding sequence  : $coding_sequence\n";
+  print "  coding sequence db: $coding_sequence_db\n";
 
+  my $aa_sequence_db = $details{'aa_sequence_db'};
+  print "  aa sequence db    : $aa_sequence_db\n";
+  
   my $aa_sequence = $details{'aa_sequence'};
-  print "  aa sequence      : $aa_sequence\n";
+  print "  aa sequence       : $aa_sequence\n";
   
-  # determine best frameshift match
-  my %frame_residues = Biocomp2::DnaTranslator::translate_all_frames($coding_sequence);
-  my %frame_scores;
-  my $high_score = 0;
-  my $best_frameshift;
-  for my $offset (keys %frame_residues) {
-    print "    offset: $offset\n";
-    my $offset_aa_sequence = $frame_residues{$offset};
-    print "      aa_sequence: $offset_aa_sequence\n";
-    my $frame_score = score($aa_sequence, $offset_aa_sequence);
-    if ($frame_score > $high_score) {
-      $high_score = $frame_score;
-      $best_frameshift = $offset;
-    }
-    print "      score: $frame_score\n";
-  }
-  print "    best frameshift: $best_frameshift\n";
-  
-  print "    length: ".length($aa_sequence)."\n";
+  my $coding_sequence = $details{'coding_sequence'};
+  print "  coding sequence   : $coding_sequence\n";
   # TODO
   # enzyme cutting
   # codon frequencyd
 }
 
-sub score {
-  my ($aa_sequence, $offset_aa_sequence) = @_;
-  # score naively using best substring overlap
-  my $aa_sequence_length = length $aa_sequence;
-  # best substr length
-  my $best = 0;
-  for my $i (0..$aa_sequence_length) {
-#    print "$i\n";
-    my $max_substr_length = $aa_sequence_length - $i;
-    for my $substr_length (($best+1)..$max_substr_length) {
-      my $candidate = substr $aa_sequence, $i, $substr_length;
-#      print "$candidate\n";
-	
-      # matched
-      if (-1 != index $offset_aa_sequence, $candidate) {
-        $best = $substr_length;
-      }
-      else {
-        last;
-      }
-    }
-  }
-  
-  return $best;
-}
+

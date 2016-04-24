@@ -109,9 +109,30 @@ sub get_gene_details {
     $coding_sequence = $coding_sequence.$exon_sequence;
   }
   $gene_details{'exons'} = \@exons;
-  $gene_details{'coding_sequence'} = $coding_sequence;
+  
+  $gene_details{'coding_sequence_db'} = $coding_sequence;
   my $aa_sequence = Biocomp2::DataAccess::get_aa_sequence($gene_id);
-  $gene_details{'aa_sequence'} = $aa_sequence;
+  $gene_details{'aa_sequence_db'} = $aa_sequence;
+  
+  # get best matching
+  # determine best frameshift match
+  my %frame_residues = Biocomp2::DnaTranslator::translate_all_frames($coding_sequence);
+  my %frame_scores;
+  my $high_score = 0;
+  my $best_frameshift;
+  for my $frameshift (keys %frame_residues) {
+    my $offset_aa_sequence = $frame_residues{$frameshift};
+    my $frame_score = score($aa_sequence, $offset_aa_sequence);
+    if ($frame_score > $high_score) {
+      $high_score = $frame_score;
+      $best_frameshift = $frameshift;
+    }
+  }
+  my $best_coding_sequence = Biocomp2::DnaTranslator::frameshift($coding_sequence, $best_frameshift);
+  my $best_aa_sequence = Biocomp2::DnaTranslator::translate($best_coding_sequence);
+  $gene_details{'coding_sequence'} = $best_coding_sequence;
+  $gene_details{'aa_sequence'} = $best_aa_sequence;
+  
   return %gene_details;
 
   # Biocomp2::DataAccess::get_gene_sequences(gene_id)
@@ -178,6 +199,31 @@ sub get_gene_details {
 # e.g. open ring, ligate the insert.
 # if we use the same enzyme, sticky ends will have the same dna, so might get included reversed.
 
+sub score {
+  my ($aa_sequence, $offset_aa_sequence) = @_;
+  # score naively using best substring overlap
+  my $aa_sequence_length = length $aa_sequence;
+  # best substr length
+  my $best = 0;
+  for my $i (0..$aa_sequence_length) {
+#    print "$i\n";
+    my $max_substr_length = $aa_sequence_length - $i;
+    for my $substr_length (($best+1)..$max_substr_length) {
+      my $candidate = substr $aa_sequence, $i, $substr_length;
+#      print "$candidate\n";
+	
+      # matched
+      if (-1 != index $offset_aa_sequence, $candidate) {
+        $best = $substr_length;
+      }
+      else {
+        last;
+      }
+    }
+  }
+  
+  return $best;
+}
 
 
 1;

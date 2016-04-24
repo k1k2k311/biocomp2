@@ -31,5 +31,7 @@ is($frame_translations{'N0'}, 'LVRVQVAQGGQRVGHVVHVR', 'frame translate: negative
 is($frame_translations{'N1'}, 'LCACRSLRADSALGMSSTC', 'frame translate: negative strand offset 1');
 is($frame_translations{'N2'}, 'CARAGRSGRTARWACRPRA', 'frame translate: negative strand offset 2');
 
+my $shift_negative2 = Biocomp2::DnaTranslator::frameshift('gcgcact','N2');
+is($shift_negative2, 'tgc', 'frame shift N2');
 done_testing;
 
