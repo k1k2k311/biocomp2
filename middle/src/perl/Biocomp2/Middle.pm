@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Biocomp2::DataAccess;
 use Biocomp2::CodonFrequencyCounter;
+use Biocomp2::CodonFrequencies;
 
 # returns same data structure as get_genes()
 sub search {
@@ -169,13 +170,10 @@ sub get_gene_details {
 
 }
 
-#sub overall_codon_frequences{
-#   hash {
-#         AAA: 3,
-#         ATG: 8,
-#         CCC: 3
-#      }
-#}
+sub get_overall_codon_frequencies {
+  return Biocomp2::CodonFrequencies::get_overall_codon_frequencies();
+}
+ 
 
 # restriction enzymes
 #   degenerate
