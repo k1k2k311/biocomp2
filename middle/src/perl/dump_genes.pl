@@ -57,10 +57,8 @@ sub dump_details {
     my $codon_frequency = $codon_frequencies{$codon};
     print "    $codon: $codon_frequency\n";
   }
-  print %codon_frequencies;
   # TODO
   # enzyme cutting
-  # codon frequencyd
 }
 
 
