@@ -34,34 +34,53 @@ print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>G
 	my $length=length($dna_seq);
 	my $i=0;
 	my $j=$length;
-	my $dna_seq2=$dna_seq;
-	my @array_subseq;
+	my $exons = $details{'exons'};
+  	my @exons = @{$exons};
 
 	
 	print "  <tr>\n";
 	print qq{<td><tab2>$gene_id</tab2></td> <td><tab2>$gene_name</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus</tab2></td> \n\n\n};
 	print " </tr>\n";
 	
-	my @array_seq;	  		while($dna_seq2) {
-			my $base=chop($dna_seq2);   			push (@{$array_seq[$j]}, $base);
-			my $array=$array_seq[$j][0];
-			print $array;	
-			$j=$j-1;  		}	
-	
-	while ($i<=$length){
-		my $chopped= substr($dna_seq,$i,100);
-		push @array_subseq, $chopped;
-		$i=$i+100;
-	}
-	
-	foreach my $element( @array_subseq)
+	my @array_seq;	  	while($dna_seq) {
+		my $base=chop($dna_seq);   		push (@{$array_seq[$j]}, $base);
+		my $color= shouldHighlight($j,\@exons);
+		push (@{$array_seq[$j]}, $color);	
+		$j=$j-1;  		}	
+	my $counter=0;
+	foreach my $element( @array_seq)
 	{	
-		print "<tr><td>";
-		print $element;
-		print "</td></tr>";
+		my @base_and_highlight=@{$element};
+		my ($base, $highlight)=@base_and_highlight;
+		if ($highlight==1){
+			print qq{<mark>$base</mark>};
+		}
+		else{
+			print $base;
+		}
+		$counter++;
+		if ($counter%100==0){
+			print "<br/>";
+		}
 	}
 
 	
 print "</thead>";
 print "</table>\n";
 print "</body> </html>";
+
+sub shouldHighlight{
+	my ($position, $exons)= @_;
+	my @exons=@{$exons};
+	for my $exon_hr (@exons) {
+   		my %exon = %{$exon_hr};
+    		my $exon_number = $exon{'number'};
+    		my $start = $exon{'start'};
+    		my $end = $exon{'end'};
+		if (($position>=$start) and ($position<=$end)){
+			return 1;
+		}
+		
+	}
+	return 0;
+}
