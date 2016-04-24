@@ -35,6 +35,10 @@ sub get_frequencies {
 
   # count
   for my $codon (@codons) {
+    if (! exists $result{$codon}) {
+      # skip it
+      next;
+    }
     $result{$codon} = $result{$codon}+1;
   }
   return %result;
