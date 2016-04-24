@@ -16,5 +16,11 @@ is($HQ141567_aa, "AHVDDMPNALSALSDLHAHK", "simple translation");
 my $bases_5 = Biocomp2::DnaTranslator::translate("gcgca");
 is($bases_5, "A", "5 dna bases");
 
+my $complement = Biocomp2::DnaTranslator::complement("gcgcattt");
+is($complement, "cgcgtaaa", 'dna complement');
+
+my $rev_complement = Biocomp2::DnaTranslator::reverse_complement("gcgcattt");
+is($rev_complement, "aaatgcgc", 'reverse dna complmement');
+
 done_testing;
 

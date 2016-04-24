@@ -3,6 +3,9 @@ use strict;
 use warnings;
 
 our %translation_table;
+our %complement_table;
+
+
 
 sub INIT {
   %translation_table = (
@@ -70,7 +73,13 @@ sub INIT {
     'ttc' => 'F',
     'ttg' => 'L',
     'ttt' => 'F'
-  )
+  );
+  %complement_table = (
+    'a' => 't',
+    'g' => 'c',
+    'c' => 'g',
+    't' => 'a'
+  );
 }
 
 
@@ -91,7 +100,24 @@ sub translate {
   return $residues;
 }
 
+sub complement {
+  my ($dna_sequence) = @_;
+  my $complement = "";
+  for my $base (split //,$dna_sequence) {
+    $complement .= $complement_table{$base};
+  }
+  return $complement;
+}
+
+sub reverse_complement {
+  my ($dna_sequence) = @_;
+  my $complement = complement($dna_sequence);
+  return reverse $complement;
+}
+
 sub translate_all_frames {
+  my %framesToResidues;
+  
   
 }
 1;
