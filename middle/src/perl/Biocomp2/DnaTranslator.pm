@@ -5,8 +5,6 @@ use warnings;
 our %translation_table;
 our %complement_table;
 
-
-
 sub INIT {
   %translation_table = (
     'aaa' => 'K',
@@ -116,8 +114,17 @@ sub reverse_complement {
 }
 
 sub translate_all_frames {
+  my ($dna_sequence) = @_;
   my %framesToResidues;
-  
-  
+  # keys will be 2 characters [PN][012]
+  # where P = positive strand, N = negative strand, and frame offset is 0, 1 or 2.
+  $framesToResidues{"P0"} = translate($dna_sequence);
+  $framesToResidues{"P1"} = translate(substr $dna_sequence, 1);
+  $framesToResidues{"P2"} = translate(substr $dna_sequence, 2);
+  my $complement = reverse_complement($dna_sequence);
+  $framesToResidues{"N0"} = translate($complement);
+  $framesToResidues{"N1"} = translate(substr $complement, 1);
+  $framesToResidues{"N2"} = translate(substr $complement, 2);
+  return %framesToResidues;
 }
 1;

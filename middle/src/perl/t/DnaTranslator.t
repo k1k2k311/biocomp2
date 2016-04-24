@@ -22,5 +22,14 @@ is($complement, "cgcgtaaa", 'dna complement');
 my $rev_complement = Biocomp2::DnaTranslator::reverse_complement("gcgcattt");
 is($rev_complement, "aaatgcgc", 'reverse dna complmement');
 
+my %frame_translations = Biocomp2::DnaTranslator::translate_all_frames("gcgcacgtggacgacatgcccaacgcgctgtccgccctgagcgacctgcacgcgcacaag");
+# print %frame_translations;
+is($frame_translations{'P0'}, 'AHVDDMPNALSALSDLHAHK', 'frame translate: positive strand offset 0');
+is($frame_translations{'P1'}, 'RTWTTCPTRCPP-ATCTRT', 'frame translate: positive strand offset 1');
+is($frame_translations{'P2'}, 'ARGRHAQRAVRPERPARAQ', 'frame translate: positive strand offset 2');
+is($frame_translations{'N0'}, 'LVRVQVAQGGQRVGHVVHVR', 'frame translate: negative strand offset 0');
+is($frame_translations{'N1'}, 'LCACRSLRADSALGMSSTC', 'frame translate: negative strand offset 1');
+is($frame_translations{'N2'}, 'CARAGRSGRTARWACRPRA', 'frame translate: negative strand offset 2');
+
 done_testing;
 

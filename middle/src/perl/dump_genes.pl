@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Biocomp2::Middle;
+use Biocomp2::DnaTranslator;
 
 my %genes = Biocomp2::Middle::get_genes();
 foreach my $gene_id ( keys %genes )
@@ -43,9 +44,53 @@ sub dump_details {
 
   my $aa_sequence = $details{'aa_sequence'};
   print "  aa sequence      : $aa_sequence\n";
+  
+  # determine best frameshift match
+  my %frame_residues = Biocomp2::DnaTranslator::translate_all_frames($coding_sequence);
+  my %frame_scores;
+  my $high_score = 0;
+  my $best_frameshift;
+  for my $offset (keys %frame_residues) {
+    print "    offset: $offset\n";
+    my $offset_aa_sequence = $frame_residues{$offset};
+    print "      aa_sequence: $offset_aa_sequence\n";
+    my $frame_score = score($aa_sequence, $offset_aa_sequence);
+    if ($frame_score > $high_score) {
+      $high_score = $frame_score;
+      $best_frameshift = $offset;
+    }
+    print "      score: $frame_score\n";
+  }
+  print "    best frameshift: $best_frameshift\n";
+  
   print "    length: ".length($aa_sequence)."\n";
   # TODO
   # enzyme cutting
   # codon frequencyd
+}
 
+sub score {
+  my ($aa_sequence, $offset_aa_sequence) = @_;
+  # score naively using best substring overlap
+  my $aa_sequence_length = length $aa_sequence;
+  # best substr length
+  my $best = 0;
+  for my $i (0..$aa_sequence_length) {
+#    print "$i\n";
+    my $max_substr_length = $aa_sequence_length - $i;
+    for my $substr_length (($best+1)..$max_substr_length) {
+      my $candidate = substr $aa_sequence, $i, $substr_length;
+#      print "$candidate\n";
+	
+      # matched
+      if (-1 != index $offset_aa_sequence, $candidate) {
+        $best = $substr_length;
+      }
+      else {
+        last;
+      }
+    }
+  }
+  
+  return $best;
 }
