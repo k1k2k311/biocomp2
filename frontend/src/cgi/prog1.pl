@@ -1,14 +1,19 @@
 #!/usr/bin/perl
 use CGI		qw( escapeHTML );
+use CGI::Carp qw/fatalsToBrowser/;
 use URI::Escape qw( uri_escape );
 use Biocomp2::Middle;
-my $query = new CGI;print $query->header();
-# the gene_id variable is what the user pressed to view detailsmy $gene_id = $query->param('data');
+$query = new CGI;
+print $query->header();
+# the gene_id variable is what the user pressed to view details
+my $gene_id = $query->param('data');
 # getting results from middle layer's subroutine 
 my %details = Biocomp2::Middle::get_gene_details($gene_id);
+
 print <<__EOF;
 <html>
-<head><link rel="stylesheet" type="text/css" href="http://student.cryst.bbk.ac.uk/~ea001/style.css">
+<head>
+<link rel="stylesheet" type="text/css" href="http://student.cryst.bbk.ac.uk/~ea001/style.css">
 <title>Chromosome 16</title>
 </head>
 <body>
@@ -18,15 +23,32 @@ print <<__EOF;
 <input type="submit" value="Search"></form></tab3>
 
 __EOF
-
+print "semina";
+exit;
 print "<table>\n";
 # print out the result we got from the subroutine
-print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>Genbank accession</td><td>Location</td></tr>";
+print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>Genbank accession</td><td>Location</td></tr>";
 	my $gene_name = $details{"name"};
 	my $gene_accession = $details{"accession_version"};
 	my $gene_locus= $details{"locus"};
+	my $dna_seq= $details{"dna_sequence"};
+exit;
+	my $length=length($dna_seq);
+	my $i=0;
+	my @array_seq;
+
+	
 	print "  <tr>\n";
-	print qq{<td><tab2>$gene_id</tab2></td> <td><tab2>$gene_name</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus</tab2></td> \n};
+	print qq{<td><tab2>$gene_id</tab2></td> <td><tab2>$gene_name</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus</tab2></td> \n\n\n};
+exit;
+	while ($i<=$length){
+		my $chopped= substr($dna_seq,$i,100);
+		push @array_seq, $chopped;
+		$i=$i+100;
+	}
+	print @array_seq;
+
 	print " </tr>\n";
-print "</thead>";print "</table>\n";
+print "</thead>";
+print "</table>\n";
 print "</body> </html>";
