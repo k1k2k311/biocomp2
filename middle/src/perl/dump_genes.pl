@@ -50,6 +50,14 @@ sub dump_details {
   
   my $coding_sequence = $details{'coding_sequence'};
   print "  coding sequence   : $coding_sequence\n";
+  
+  my %codon_frequencies = %{$details{'codon_frequencies'}};
+  print "  codon frequencies:\n";
+  for my $codon (sort keys %codon_frequencies) {
+    my $codon_frequency = $codon_frequencies{$codon};
+    print "    $codon: $codon_frequency\n";
+  }
+  print %codon_frequencies;
   # TODO
   # enzyme cutting
   # codon frequencyd

@@ -2,6 +2,7 @@ package Biocomp2::Middle;
 use strict;
 use warnings;
 use Biocomp2::DataAccess;
+use Biocomp2::CodonFrequencyCounter;
 
 sub hello {
   return "do not use";
@@ -134,6 +135,8 @@ sub get_gene_details {
   $gene_details{'aa_sequence'} = $best_aa_sequence;
   $gene_details{'frameshift'} = $best_frameshift;
   
+  my %codon_frequencies = Biocomp2::CodonFrequencyCounter::get_frequencies($best_coding_sequence);
+  $gene_details{'codon_frequencies'} = \%codon_frequencies;
   return %gene_details;
 
   # copy above to gene details
