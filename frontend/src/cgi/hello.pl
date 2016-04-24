@@ -17,6 +17,8 @@ print <<__EOF;
 <input type="submit" value="Search"></form></tab3>
 
 __EOF
+
+
 print "<table>\n";
 # making the webpage look like a table
 print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>Genbank accession</td><td>Location</td></tr>";
