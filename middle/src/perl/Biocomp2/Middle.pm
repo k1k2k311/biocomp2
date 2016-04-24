@@ -4,6 +4,8 @@ use warnings;
 use Biocomp2::DataAccess;
 use Biocomp2::CodonFrequencyCounter;
 use Biocomp2::CodonFrequencies;
+use Biocomp2::RestrictionEnzyme;
+use Biocomp2::DnaTranslator;
 
 # returns same data structure as get_genes()
 sub search {
@@ -134,6 +136,9 @@ sub get_gene_details {
   
   my %codon_frequencies = Biocomp2::CodonFrequencyCounter::get_frequencies($best_coding_sequence);
   $gene_details{'codon_frequencies'} = \%codon_frequencies;
+  
+  my %restriction_sites = Biocomp2::RestrictionEnzyme::get_all_restriction_enzyme_sites($best_coding_sequence, \@exons);
+  $gene_details{'restriction_sites'} = %restriction_sites;
   return %gene_details;
 
   # copy above to gene details
