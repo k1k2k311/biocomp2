@@ -4,10 +4,6 @@ use warnings;
 use Biocomp2::DataAccess;
 use Biocomp2::CodonFrequencyCounter;
 
-sub hello {
-  return "do not use";
-}
-
 # returns same data structure as get_genes()
 sub search {
   my ($query) =  @_;
