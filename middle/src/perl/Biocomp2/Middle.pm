@@ -104,8 +104,6 @@ sub get_gene_details {
     $exon{'number'} = $a[0];
     $exon{'start'} = $a[1];
     $exon{'end'} = $a[2];
-#    print %exon;
-#    print "\n";
     push @exons, \%exon;
     my $exon_sequence = substr($sequence, $start, $end-$start+1);
     $coding_sequence = $coding_sequence.$exon_sequence;
