@@ -132,18 +132,9 @@ sub get_gene_details {
   my $best_aa_sequence = Biocomp2::DnaTranslator::translate($best_coding_sequence);
   $gene_details{'coding_sequence'} = $best_coding_sequence;
   $gene_details{'aa_sequence'} = $best_aa_sequence;
+  $gene_details{'frameshift'} = $best_frameshift;
   
   return %gene_details;
-
-  # Biocomp2::DataAccess::get_gene_sequences(gene_id)
-  # hash {
-#      dna_sequence: "AGAGATAGAGCCC",
-#      frame_offset: 1 2 or 3,
-#      aa_sequence: "MAJKLSFKJLASF"
-#    }
-
-  # Biocomp2::DataAccess::get_gene_coordinates(gene_id)
-  # [[30,60],[77,99]]
 
   # copy above to gene details
   # calculate codon frequencies
