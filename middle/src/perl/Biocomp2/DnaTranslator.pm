@@ -83,6 +83,9 @@ sub INIT {
 
 sub translate {
   my ($coding_sequence) = @_;
+  if (! defined $coding_sequence) {
+    return "";
+  }
 #  print "coding_sequence: $coding_sequence\n";
   my $residues = "";
 
@@ -120,6 +123,10 @@ sub reverse_complement {
 sub translate_all_frames {
   my ($dna_sequence) = @_;
   my %framesToResidues;
+  if (! defined $dna_sequence) {
+    # empty
+    return %framesToResidues;
+  }
   # keys will be 2 characters [PN][012]
   # where P = positive strand, N = negative strand, and frame offset is 0, 1 or 2.
   $framesToResidues{"P0"} = translate($dna_sequence);
