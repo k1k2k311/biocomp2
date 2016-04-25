@@ -2,11 +2,13 @@ package Biocomp2::Front;
 use strict;
 use warnings;
 
+
 sub printDetails{
 	my ($uri, $html, $gene_name, $gene_product, $gene_accession, $gene_locus) =@_;
 	print qq{<td><tab2><a href="$uri">$html</a></tab2></td> <td><tab2>$gene_name</tab2></td> 		<td><tab2>$gene_product</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus	    		</tab2></td> \n};
 }
 
+# getting the position of the base and return 1 if it has to be highlighted or 0 if not
 sub shouldHighlight{
 	my ($position, $exons)= @_;
 	my @exons=@{$exons};
@@ -23,6 +25,7 @@ sub shouldHighlight{
 	return 0;
 }
 
+# codon is the first three letters of the codon sequence and aa_letter is the first letter of the aa sequence
 sub translation{
 	my ($coding_sequence, $aa_sequence)=@_;
 	while ($coding_sequence){
