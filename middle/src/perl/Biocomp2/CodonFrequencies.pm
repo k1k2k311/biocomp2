@@ -4,6 +4,8 @@ use warnings;
 use File::Basename;
 use File::Spec;
 
+# returns a hash of codon to counts for chromosome 16
+# this is precalculated and read from a file
 sub get_overall_codon_frequencies {
   # read it from csv file
   my $dir = dirname(__FILE__);

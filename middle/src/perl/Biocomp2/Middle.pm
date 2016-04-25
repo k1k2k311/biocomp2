@@ -34,6 +34,10 @@ sub search {
   return %genes;
 }
 
+# returns a hash of hashes.
+# The top level hash has gene_id for the key,
+# The second level hash has properties of the gene, keyed by 'accession_version', 'name', 'locus', 'product',
+# and 'protein_id'
 sub get_genes {
   my %genes_db = Biocomp2::DataAccess::get_genes();
   # convert from hash of arrays to hash of hashes
@@ -59,6 +63,25 @@ sub get_genes {
   return %genes;
 }
 
+# input: a single gene id
+# output: a hash with a lot of info
+# valid keys are
+# 'id' contains the gene id
+# 'accession_version' contains the access version
+# 'name' contains the gene name
+# 'locus' gene locus
+# 'product' the gene product, e.g. a chemical name
+# 'protein_id'
+# 'dna_sequence' DNA sequence, a long string that can be several thousand bases.
+# 'exons'. A reference to an array of hashes. Each hash describes an exon and has keys
+#    'number' for the exon number, this starts from 1
+#    'start' for the start position
+#    'end' for the end position in the DNA sequence
+# 'coding_sequence' for the coding sequence only. This is based on the exons and is a subset of the DNA sequence
+# 'aa_sequence' a string sequence for the translated coding sequence. These are amino acids or residues.
+# 'codon_frequencies' contains a reference to a hash of codons to count
+# 'restriction_sites' contains a reference to a hash of enzyme to positions on the DNA sequence where the enzyme cuts.
+#                     exons positions should be considered to determine
 sub get_gene_details {
   # input: gene ID
   my ($gene_id) = @_;
@@ -101,7 +124,7 @@ sub get_gene_details {
   $gene_details{'aa_sequence_db'} = $aa_sequence;
   
   # get best matching
-  # determine best frameshift match
+  # determine best frameshift match.. the parsed frameshift isn't always best.
   my %frame_residues = Biocomp2::DnaTranslator::translate_all_frames($coding_sequence);
   my %frame_scores;
   my $high_score = 0;
@@ -129,10 +152,16 @@ sub get_gene_details {
 
 }
 
+# returns a hash of codon to counts for all of genes in chromosome 16
 sub get_overall_codon_frequencies {
   return Biocomp2::CodonFrequencies::get_overall_codon_frequencies();
 }
 
+# input: this takes two inputs
+#      1.  gene_id
+#      2.  enzyme cutting pattern. It should be a string contain bases, and also a caret '^' within the string.
+#          e.g. "G^GATCC"
+# return: an array of positions where this enzyme will cut
 sub calculate_custom_restriction_enzyme_sites {
   my ($gene_id, $enzyme_pattern) = @_;
   # lookup gene dna sequence

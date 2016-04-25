@@ -11,6 +11,11 @@ sub INIT {
   %enzymes = init_enzymes();
 }
 
+# inputs:
+#    1. dna sequence
+#    2. exons array ref (ignored)
+# return:
+#    a hash of enzymes to an array ref of the positions where it cuts on the DNA sequence
 sub get_all_restriction_enzyme_sites {
   my ($dna_sequence, $exons_ref) = @_;
   my @exons = @{$exons_ref};
