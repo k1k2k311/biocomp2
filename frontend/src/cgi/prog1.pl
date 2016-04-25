@@ -33,6 +33,8 @@ print "<thead>    <tr><td>Gene identifier</td><td>Gene name</td><td>Protein prod
 	my $gene_accession = $details{"accession_version"};
 	my $gene_locus= $details{"locus"};
 	my $dna_seq= $details{"dna_sequence"};
+	my $aa_sequence = $details{'aa_sequence'};
+	my $coding_sequence = $details{'coding_sequence'};
 	my $length=length($dna_seq);
 	my $i=0;
 	my $j=$length;
@@ -76,7 +78,8 @@ print "<thead>    <tr><td>Gene identifier</td><td>Gene name</td><td>Protein prod
     		print "Exon $exon_number starts at position $start and ends at position $end <br/>";
    		
  	}
-
 	
+		
+	Biocomp2::Front::translation($coding_sequence, $aa_sequence);
 
-print "</body> </html>";
+	print "</body> </html>";
