@@ -18,16 +18,13 @@ sub get_all_restriction_enzyme_sites {
   # for each enzyme, see where it cuts
   for my $enzyme (keys %enzymes) {
 #    print "enzyme: $enzyme\n";
-    my $enzyme_cutting_pattern = lc $enzymes{$enzyme};
+    my $enzyme_cutting_pattern = $enzymes{$enzyme};
 #    print "pattern: $enzyme_cutting_pattern\n";
     # extract cut offset and regex
-    my $enzyme_regexp = $enzyme_cutting_pattern;
-    $enzyme_regexp =~ s/\^//;
-    my $enzyme_cut_offset = index $enzyme_cutting_pattern, '^';
 #    print "cut offset: $enzyme_cut_offset\n";
 #    print "regexp: $enzyme_regexp\n";
 #    print "sequence: $dna_sequence\n";
-    my @sites = get_enzyme_sites($dna_sequence, $enzyme_regexp, $enzyme_cut_offset);
+    my @sites = get_enzyme_sites($dna_sequence, $enzyme_cutting_pattern);
  #   print "sites: @sites\n";
     $restriction_sites{$enzyme} = \@sites;
   }
@@ -35,7 +32,11 @@ sub get_all_restriction_enzyme_sites {
 }
 
 sub get_enzyme_sites {
-  my ($dna_sequence, $enzyme_regexp, $enzyme_cut_offset) = @_;
+  my ($dna_sequence, $enzyme_cutting_pattern) = @_;
+  $enzyme_cutting_pattern = lc $enzyme_cutting_pattern;
+  my $enzyme_regexp = $enzyme_cutting_pattern;
+  $enzyme_regexp =~ s/\^//;
+  my $enzyme_cut_offset = index $enzyme_cutting_pattern, '^';
   my @sites;
   while ($dna_sequence =~ /$enzyme_regexp/g) {
     my $end_pos = pos($dna_sequence);

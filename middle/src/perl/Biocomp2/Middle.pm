@@ -39,15 +39,6 @@ sub get_all_genes {
   return %gene_names;
 }
 
-# {
-#    gene_id: {
-#       accession_version: ..,
-#       name: ....
-#       locus: .....
-#       product: ......
-#       protein_id: ....
-#    }
-# }
 sub get_genes {
   my %genes_db = Biocomp2::DataAccess::get_genes();
   # convert from hash of arrays to hash of hashes
@@ -141,42 +132,17 @@ sub get_gene_details {
   $gene_details{'restriction_sites'} = \%restriction_sites;
   return %gene_details;
 
-  # copy above to gene details
-  # calculate codon frequencies
-  # calculate cloning cutting offsets
-
-  # output: hash
-  # {
-#      name: "",
-#      protein_name: "",
-#      locus: ""
-#      dna_sequence: "agcgcgacggccatgcgatactac",
-#      aa_sequence: "MAJKLSFKJLASF"
-#      coding_regions: [
-#                [30,60],
-#                [77,90],
-#                [200,300]
-#                ],
-#      codon_frequences: {
-#         AAA: 3,
-#         ATG: 8,
-#         CCC: 3
-#      },
-#      cloning: {
-#        enzyme: [start, cut, end]
-#      },
-#      cloning: {
-#        "BAMH1": [15, 17, 21],
-#        "ZZZZZ": [14, 15, 20],
-#        "XXXXX": [320, 328, 330]
-#      }
-  # }
-  #
-
 }
 
 sub get_overall_codon_frequencies {
   return Biocomp2::CodonFrequencies::get_overall_codon_frequencies();
+}
+
+sub calculate_custom_restriction_enzyme_sites {
+  my ($gene_id, $enzyme_pattern) = @_;
+  # lookup gene dna sequence
+  my $sequence = Biocomp2::DataAccess::get_sequence($gene_id);
+  return Biocomp2::RestrictionEnzyme::get_enzyme_sites($sequence, $enzyme_pattern);
 }
  
 
