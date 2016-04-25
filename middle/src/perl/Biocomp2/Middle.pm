@@ -139,19 +139,6 @@ sub calculate_custom_restriction_enzyme_sites {
   my $sequence = Biocomp2::DataAccess::get_sequence($gene_id);
   return Biocomp2::RestrictionEnzyme::get_enzyme_sites($sequence, $enzyme_pattern);
 }
- 
-
-# restriction enzymes
-#   degenerate
-# AC^GGTGGA sequence
-# ^ is where it will cut
-# this is the equivalent of
-# TCCACC^GT
-# do not use if it cuts in exon or intron (between 5' and 3' do not use)
-
-#  plasmid is circular DNA that will help create proteins,
-# e.g. open ring, ligate the insert.
-# if we use the same enzyme, sticky ends will have the same dna, so might get included reversed.
 
 sub score {
   my ($aa_sequence, $offset_aa_sequence) = @_;

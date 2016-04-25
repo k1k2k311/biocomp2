@@ -17,15 +17,8 @@ sub get_all_restriction_enzyme_sites {
   my %restriction_sites;
   # for each enzyme, see where it cuts
   for my $enzyme (keys %enzymes) {
-#    print "enzyme: $enzyme\n";
     my $enzyme_cutting_pattern = $enzymes{$enzyme};
-#    print "pattern: $enzyme_cutting_pattern\n";
-    # extract cut offset and regex
-#    print "cut offset: $enzyme_cut_offset\n";
-#    print "regexp: $enzyme_regexp\n";
-#    print "sequence: $dna_sequence\n";
     my @sites = get_enzyme_sites($dna_sequence, $enzyme_cutting_pattern);
- #   print "sites: @sites\n";
     $restriction_sites{$enzyme} = \@sites;
   }
   return %restriction_sites;
@@ -68,5 +61,3 @@ sub init_enzymes {
 
 
 1;
-
-# EcoRI, BamHI and BsuMI
