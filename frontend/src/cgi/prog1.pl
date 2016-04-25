@@ -38,6 +38,7 @@ print "<thead>    <tr><td>Gene identifier</td><td>Gene name</td><td>Protein prod
 	my $j=$length;
 	my $exons = $details{'exons'};
   	my @exons = @{$exons};
+	my $exon_number = $exon{'number'};
 	print " <tr>\n";
 	print qq{<td><tab2>$gene_id</tab2></td> <td><tab2>$gene_name</tab2></td><td><tab2>$gene_product	</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus</tab2></td> \n};
 	print " </tr>\n";
@@ -65,6 +66,16 @@ print "<thead>    <tr><td>Gene identifier</td><td>Gene name</td><td>Protein prod
 			print "<br/>";
 		}
 	}
+
+	print "<br/>";print "<br/>";print "<br/>";
+	 for my $exon_hr (@exons) {
+    		my %exon = %{$exon_hr};
+    		my $exon_number = $exon{'number'};
+    		my $start = $exon{'start'};
+    		my $end = $exon{'end'};
+    		print "Exon $exon_number starts at position $start and ends at position $end <br/>";
+   		
+ 	}
 
 	
 
