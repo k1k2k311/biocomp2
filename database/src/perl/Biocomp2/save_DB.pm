@@ -15,6 +15,7 @@ sub save_genes {
 
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
+	# Get referenced hashes 
 	my($gene_ref, $cordinates_hash_ref) = @_;
 	my %cordinates_hash = %$cordinates_hash_ref;
 	my %gene_hash = %$gene_ref;
@@ -44,12 +45,13 @@ foreach my $key (keys %gene_hash)
 
 	#print "@@@@@@@@@@@@@@@\n\n";
 
+	
 	if (defined $dbh) {
 	my $sql = "INSERT INTO chromosome16_genes (gene_ID, acc_ver, complement, gene, sequence, map, cod_start, product, protID, aminoacid) ".
 				"VALUES ('$gene_ID','$acc_ver','$complement', '$gene', '$sequence', '$map', '$cod_start', '$product', '$protID', '$aa')";
 	$dbh->do($sql);
 	#print "INSERT INTO chromosome16_genes  ", $gene_ID, "\n ", $acc_ver, "\n ",$complement, "\n ", $gene, "\n ", $sequence, "\n ", $map, "\n ", $cod_start, "\n ", $product, "\n ", $protID, "\n ", $aa, "\n\n";
-		
+	print "Saving to database $dbname 	table: chromosome16_genes	gene_ID: $gene_ID \n";
 	}
 	
 }
@@ -58,7 +60,7 @@ foreach my $key (keys %gene_hash)
 #my $row_count = 1;
 foreach my $key (keys %cordinates_hash) {
 
-	print "###########    ", $key, "\n";
+
 	my @coordinates_aoa = @{$cordinates_hash{$key}};
 	my $gene_ID = $key;
 	my $exon_count = 0;
@@ -92,13 +94,14 @@ foreach my $key (keys %cordinates_hash) {
 			$dbh->do($sql);
 			#print "INSERT INTO coordinates table  ", $gene_ID, "\n ", "EXON	", $exon_count, "\n ", "START	", $start, "\n ", "END	", $end, "\n";
 			#print "INSERT INTO coordinates table  ", $gene_ID, "\n";
+			print "Saving to database $dbname 	table: coordinates	gene_ID: $gene_ID \n";
 		 }	
 
      }
 
 }
 
-
+print "Saving to database $dbname at $dbhost \n\n";
 }
 
 1; 

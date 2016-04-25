@@ -30,8 +30,8 @@ while ($entry = Biocomp2::parser::get_entry($file) ) {
 	my ($annotation, $features, $sequence) = Biocomp2::parser::split_entry($entry);
 
     # Marker new entry
-	print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
 	#print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n";
+	print "Parsing new entry\n";
 	# Count number of entries
 	print $count++, "\n";
 	#print $annotation;
@@ -57,7 +57,7 @@ while ($entry = Biocomp2::parser::get_entry($file) ) {
 
 }
 
-# Send referenced hashes to DataAccess tier
+# Referenced hashes to DataAccess tier
 Biocomp2::save_DB::save_genes(\%gene, \%cordinates_hash);                                                            # Referenced parsed genbank to DataAccess
 
 
