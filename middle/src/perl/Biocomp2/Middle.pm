@@ -138,7 +138,7 @@ sub get_gene_details {
   $gene_details{'codon_frequencies'} = \%codon_frequencies;
   
   my %restriction_sites = Biocomp2::RestrictionEnzyme::get_all_restriction_enzyme_sites($best_coding_sequence, \@exons);
-  $gene_details{'restriction_sites'} = %restriction_sites;
+  $gene_details{'restriction_sites'} = \%restriction_sites;
   return %gene_details;
 
   # copy above to gene details

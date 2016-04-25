@@ -57,8 +57,13 @@ sub dump_details {
     my $codon_frequency = $codon_frequencies{$codon};
     print "    $codon: $codon_frequency\n";
   }
-  # TODO
-  # enzyme cutting
+  my %restriction_sites = %{$details{'restriction_sites'}};
+  print "  restriction sites:\n";
+  for my $enzyme (sort keys %restriction_sites) {
+    my $sites_ref = $restriction_sites{$enzyme};
+    my @sites = @{$sites_ref};
+    print "    $enzyme: ".join(',',@sites)."\n";
+  }
 }
 
 
