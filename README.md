@@ -1,11 +1,11 @@
 # Biocomputing II Project
 
 ## Members
-| team member | layer |
-|-------------|-------|
-|Igor Ruiz de los Mozos <i.mozos at ucl.ac.uk>|Database|
-|Jurn Ho <jurn@magicmonster.com>|middle|
-|Semina Efstratiou <aefstr01@mail.bbk.ac.uk>|UI|
+| team member | email | layer |
+|-------------|-------|-------|
+|Igor Ruiz de los Mozos|i.mozos at ucl.ac.uk|Database|
+|Jurn Ho|<jurn@magicmonster.com>|middle|
+|Semina Efstratiou|<aefstr01@mail.bbk.ac.uk>|UI|
 
 ## Requirements
 We have been assigned chromosome 16.
