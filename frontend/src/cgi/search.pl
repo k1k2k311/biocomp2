@@ -35,7 +35,7 @@ foreach my $gene_id ( keys %result )
 	my $gene_accession = $details{"accession_version"};
 	my $gene_locus= $details{"locus"};
 	print " <tr>\n";
-	print qq{<td><tab2><a href="$uri">$html</a></tab2></td> <td><tab2>$gene_name</tab2></td> 		<td><tab2>$gene_product</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus	    		</tab2></td> \n};
+	Biocomp2::Front::printDetails($uri, $html, $gene_name, $gene_product, $gene_accession, $gene_locus);
 	print " </tr>\n";
 
 }

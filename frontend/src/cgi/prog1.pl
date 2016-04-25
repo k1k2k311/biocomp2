@@ -3,6 +3,7 @@ use CGI		qw( escapeHTML );
 use CGI::Carp qw/fatalsToBrowser/;
 use URI::Escape qw( uri_escape );
 use Biocomp2::Middle;
+use Biocomp2::Front;
 $query = new CGI;
 print $query->header();
 # the gene_id variable is what the user pressed to view details
@@ -45,7 +46,7 @@ print "<thead>    <tr><td>Gene identifier</td><td>Gene name</td><td>Protein prod
 	
 	my @array_seq;	  	while($dna_seq) {
 		my $base=chop($dna_seq);   		push (@{$array_seq[$j]}, $base);
-		my $color= shouldHighlight($j,\@exons);
+		my $color= Biocomp2::Front::shouldHighlight($j,\@exons);
 		push (@{$array_seq[$j]}, $color);	
 		$j=$j-1;  		}	
 	my $counter=0;
@@ -68,19 +69,3 @@ print "<thead>    <tr><td>Gene identifier</td><td>Gene name</td><td>Protein prod
 	
 
 print "</body> </html>";
-
-sub shouldHighlight{
-	my ($position, $exons)= @_;
-	my @exons=@{$exons};
-	for my $exon_hr (@exons) {
-   		my %exon = %{$exon_hr};
-    		my $exon_number = $exon{'number'};
-    		my $start = $exon{'start'};
-    		my $end = $exon{'end'};
-		if (($position>=$start) and ($position<=$end)){
-			return 1;
-		}
-		
-	}
-	return 0;
-}
