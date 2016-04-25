@@ -5,6 +5,7 @@ cp frontend/src/cgi/hello.pl ~/WWW/cgi-bin/
 cp frontend/src/cgi/prog1.pl ~/WWW/cgi-bin/
 cp frontend/src/cgi/search.pl ~/WWW/cgi-bin/
 cp frontend/src/cgi/style.css ~/WWW/
+cp frontend/src/cgi/Front.pm ~/WWW/cgi-bin/Biocomp2/
 
 cp middle/src/perl/Biocomp2/* ~/WWW/cgi-bin/Biocomp2/
 
