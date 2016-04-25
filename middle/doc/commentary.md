@@ -16,7 +16,7 @@ proteins with single a residue came up late in the project.
 Another issue is that we only ran the code on bbk servers. 'nomachine' and cut and paste code directly
  via the remote desktop. This led to hard to track errors with DOS newlines. By not setting up the
  project up on each individual's laptop we haven't really addressed alternative deployments. I didn't
- want to spend setting CGI.
+ want to spend setting up CGI.
 
 Good things include early integration. We setup a script to deploy the project so each individual can
 work on their own copy. API stubs with hard coded or mock data were also added in the beginning so noone was
