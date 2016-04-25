@@ -31,9 +31,9 @@ foreach my $gene_id ( keys %result )
 	# making a new hash for the gene details for printing the results
 	my %gene_details = %{$result{$gene_id}};
     	my $gene_name = $gene_details{"name"};
-	my $gene_product = $details{"product"};
-	my $gene_accession = $details{"accession_version"};
-	my $gene_locus= $details{"locus"};
+	my $gene_product = $gene_details{"product"};
+	my $gene_accession = $gene_details{"accession_version"};
+	my $gene_locus= $gene_details{"locus"};
 	print " <tr>\n";
 	Biocomp2::Front::printDetails($uri, $html, $gene_name, $gene_product, $gene_accession, $gene_locus);
 	print " </tr>\n";
