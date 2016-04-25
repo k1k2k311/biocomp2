@@ -53,6 +53,8 @@ print "<thead>    <tr><td>Gene identifier</td><td>Gene name</td><td>Protein prod
 		push (@{$array_seq[$j]}, $color);	
 		$j=$j-1;  		}	
 	my $counter=0;
+
+	print qq{<h2>Complete DNA sequence with the coding regions</h2>};
 	foreach my $element( @array_seq)
 	{	
 		my @base_and_highlight=@{$element};
@@ -69,17 +71,33 @@ print "<thead>    <tr><td>Gene identifier</td><td>Gene name</td><td>Protein prod
 		}
 	}
 
-	print "<br/>";print "<br/>";print "<br/>";
+	print "<br/>";print "<br/>";
 	 for my $exon_hr (@exons) {
     		my %exon = %{$exon_hr};
     		my $exon_number = $exon{'number'};
     		my $start = $exon{'start'};
     		my $end = $exon{'end'};
-    		print "Exon $exon_number starts at position $start and ends at position $end <br/>";
+    		print qq{Exon <tab4>$exon_number</tab4> starts at position <tab4>$start</tab4> and ends at 			position <tab4>$end</tab4> <br/>};
    		
  	}
+
+	print qq{<h2>The amino acid sequence displayed with the coding DNA sequence</h2>};
+	Biocomp2::Front::translation($coding_sequence, $aa_sequence);
+	print qq{<h2>Codon usage frequencies within the coding region</h2>};
+	print "<table><tr>";
+	my $counter=0;
+	my %codon_frequencies = %{$details{'codon_frequencies'}};
+  	for my $codon (sort keys %codon_frequencies) {
+    		my $codon_frequency = $codon_frequencies{$codon};
+		print qq{<td>$codon=>$codon_frequency</td>};
+		$counter++;
+		if ($counter==16){	
+			$counter=0;
+			print "<tr/><tr>";
+		}	
+    	}
 	
 		
-	Biocomp2::Front::translation($coding_sequence, $aa_sequence);
-
+	
+	print "</tr></table>";
 	print "</body> </html>";

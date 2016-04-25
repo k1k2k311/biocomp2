@@ -30,11 +30,13 @@ sub translation{
 		$coding_sequence=substr($coding_sequence,3);
 		my $aa_letter=substr($aa_sequence,0,1);	
 		$aa_sequence=substr($aa_sequence,1);
-		print "$codon => $aa_letter";
-		print "&nbsp; &nbsp;&nbsp;";
+		print qq{$codon => <tab4>$aa_letter</tab4>};
+		print "&nbsp;&nbsp;";
 	}
 	
 }
+
+
 
 
 

@@ -4,3 +4,5 @@ h1 {    color: #f7f7f7;
 tab1 {padding: 40px; color:black;}
 tab2 {color:grey;}
 tab3 {text-align:right;}
+h2 {font-weight:bold; font-size: 30px; color: blue; }
+tab4 {color: red; font-weight:bold;}
