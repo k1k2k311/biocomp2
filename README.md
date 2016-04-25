@@ -20,7 +20,7 @@ crystallography.
 
 To run and populate the database,
 1. clone to repository
-2. run `./RUN_deploy_download_createDB_populdateDB`
+2. run `./RUN_DB.sh`
 
 To work with an existing database:
 1. run `./deploy.sh`
