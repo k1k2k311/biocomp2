@@ -2,6 +2,7 @@
 use CGI		qw( escapeHTML );
 use URI::Escape qw( uri_escape );
 use Biocomp2::Middle;
+use Biocomp2::Front;
 $cgi = new CGI;
 print $cgi->header();
 # getting the data that the user wants to search for and access the search subroutine in the middle layer
@@ -20,7 +21,7 @@ print <<__EOF;
 
 __EOF
 print "<table>\n";
-print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>Genbank accession</td><td>Location</td></tr>";
+print "<thead>    <tr><td>Gene identifier</td><td>Gene name</td><td>Protein product name</td><td>Genbank accession</td><td>Location</td></tr>";
 
 foreach my $gene_id ( keys %result )
 {	
@@ -30,10 +31,11 @@ foreach my $gene_id ( keys %result )
 	# making a new hash for the gene details for printing the results
 	my %gene_details = %{$result{$gene_id}};
     	my $gene_name = $gene_details{"name"};
-	my $gene_accession = $gene_details{"accession_version"};
-	my $gene_locus= $gene_details{"locus"};
-	print "  <tr>\n";
-	print qq{<td><tab2><a href="$uri">$html</a></tab2></td> <td><tab2>$gene_name</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus</tab2></td> \n};
+	my $gene_product = $details{"product"};
+	my $gene_accession = $details{"accession_version"};
+	my $gene_locus= $details{"locus"};
+	print " <tr>\n";
+	print qq{<td><tab2><a href="$uri">$html</a></tab2></td> <td><tab2>$gene_name</tab2></td> 		<td><tab2>$gene_product</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus	    		</tab2></td> \n};
 	print " </tr>\n";
 
 }

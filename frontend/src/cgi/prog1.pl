@@ -26,8 +26,9 @@ __EOF
 
 print "<table>\n";
 # print out the result we got from the subroutine
-print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>Genbank accession</td><td>Location</td></tr>";
+print "<thead>    <tr><td>Gene identifier</td><td>Gene name</td><td>Protein product name</td><td>Genbank accession</td><td>Location</td></tr>";
 	my $gene_name = $details{"name"};
+	my $gene_product = $details{"product"};
 	my $gene_accession = $details{"accession_version"};
 	my $gene_locus= $details{"locus"};
 	my $dna_seq= $details{"dna_sequence"};
@@ -36,11 +37,11 @@ print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>G
 	my $j=$length;
 	my $exons = $details{'exons'};
   	my @exons = @{$exons};
-
-	
-	print "  <tr>\n";
-	print qq{<td><tab2>$gene_id</tab2></td> <td><tab2>$gene_name</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus</tab2></td> \n\n\n};
+	print " <tr>\n";
+	print qq{<td><tab2>$gene_id</tab2></td> <td><tab2>$gene_name</tab2></td><td><tab2>$gene_product	</tab2></td> <td><tab2>$gene_accession</tab2></td><td><tab2>$gene_locus</tab2></td> \n};
 	print " </tr>\n";
+	print "</thead>";
+	print "</table>\n";
 	
 	my @array_seq;	  	while($dna_seq) {
 		my $base=chop($dna_seq);   		push (@{$array_seq[$j]}, $base);
@@ -65,8 +66,7 @@ print "<thead>    <tr><td>Gene identifier</td><td>Protein product name</td><td>G
 	}
 
 	
-print "</thead>";
-print "</table>\n";
+
 print "</body> </html>";
 
 sub shouldHighlight{
