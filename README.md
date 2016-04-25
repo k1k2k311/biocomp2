@@ -28,3 +28,5 @@ To work with an existing database:
 It is also possible to run scripts from the command line after setting up PERL5LIB. To do this:
 1. run `./perl_env.sh`
 
+## Architecture
+![architecture diagram](arch_overview.png "Architecture Overview")
