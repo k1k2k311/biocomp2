@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use DBI;
 use Data::Dumper qw(Dumper);
-use Biocomp2::DataAccess;
+use Biocomp2::save_DB;
 use Biocomp2::parser;
 
 
@@ -58,7 +58,7 @@ while ($entry = Biocomp2::parser::get_entry($file) ) {
 }
 
 # Send referenced hashes to DataAccess tier
-Biocomp2::DataAccess::save_genes(\%gene, \%cordinates_hash);                                                            # Referenced parsed genbank to DataAccess
+Biocomp2::save_DB::save_genes(\%gene, \%cordinates_hash);                                                            # Referenced parsed genbank to DataAccess
 
 
 
