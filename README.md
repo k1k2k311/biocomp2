@@ -1,7 +1,7 @@
 # Biocomputing II Project
 
 ## Members
-* Igor Ruiz de los Mozos <i.mozos<at>ucl.ac.uk> 	Database layer
+* Igor Ruiz de los Mozos '<i.mozos<at>ucl.ac.uk>' 	Database layer
 * Jurn Ho <jurn@magicmonster.com>
 * Semina Efstratiou
 
