@@ -205,7 +205,6 @@ sub save_genes {
 	my $dbh = DBI->connect($dbsource, $username, $password) or die "Imposible conect to DataBase \n";
 
 	my($gene_ref, $cordinates_hash_ref) = @_;
-	print "Saving \n\n";
 	my %cordinates_hash = %$cordinates_hash_ref;
 	my %gene_hash = %$gene_ref;
 
