@@ -80,7 +80,7 @@ sub INIT {
   );
 }
 
-
+# translate a dna sequence into a aa sequence
 sub translate {
   my ($coding_sequence) = @_;
   if (! defined $coding_sequence) {
@@ -105,6 +105,7 @@ sub translate {
   return $residues;
 }
 
+# get the dna complement sequence
 sub complement {
   my ($dna_sequence) = @_;
   my $complement = "";
@@ -114,12 +115,14 @@ sub complement {
   return $complement;
 }
 
+# get the reverse dna complement sequence
 sub reverse_complement {
   my ($dna_sequence) = @_;
   my $complement = complement($dna_sequence);
   return reverse $complement;
 }
 
+# return a hash of all six possible translations (positive or negative strand, and the three frame offsets)
 sub translate_all_frames {
   my ($dna_sequence) = @_;
   my %framesToResidues;
@@ -139,6 +142,10 @@ sub translate_all_frames {
   return %framesToResidues;
 }
 
+# inputs
+#   1. dna sequence
+#   2. two letters that match [PN][012], P or N or positive or negative strand
+#                                    and 0,1 or 2 for offset
 sub frameshift {
   my ($dna_sequence, $frame) = @_;
   my ($direction, $offset) = split //, $frame;

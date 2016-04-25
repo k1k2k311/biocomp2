@@ -16,7 +16,8 @@ sub _all_codons {
   return @codons;
 }
 
-
+# returns a hash of codon to counts
+# codons that are not present will have a count of 0
 sub get_frequencies {
   my ($coding_sequence) = @_;
 #  print "coding_sequence: $coding_sequence\n";
