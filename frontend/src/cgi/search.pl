@@ -26,7 +26,7 @@ print "<thead>    <tr><td>Gene identifier</td><td>Gene name</td><td>Protein pro
 foreach my $gene_id ( keys %result )
 {	
 	# link the gene_id back to details page
-	my $uri = 'prog1.pl?data='.uri_escape($gene_id);
+	my $uri = 'details.pl?data='.uri_escape($gene_id);
    	my $html = escapeHTML($gene_id);
 	# making a new hash for the gene details for printing the results
 	my %gene_details = %{$result{$gene_id}};
