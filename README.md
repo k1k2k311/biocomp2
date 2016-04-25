@@ -12,7 +12,7 @@ We have been assigned chromosome 16.
  module's website
 
 [Raw data](http://www.bioinf.org.uk/teaching/bbk/biocomp2/data/chrom_CDS_16.gz) must be
-downloaded at parsed.
+downloaded and parsed.
 
 ## Installation
 This has only been tested on on `hope`, a server that is internal to Birkbeck
