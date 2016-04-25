@@ -1,13 +1,30 @@
-# biocomp2
-project work
-Our Chromosome is number 16
-requirements are at: http://www.bioinf.org.uk/teaching/bbk/biocomp2/project.html
-Cromosome URL http://www.bioinf.org.uk/teaching/bbk/biocomp2/data/chrom_CDS_16.gz
-We have set the lucidchart, skype, and mail for easy comunication between the members of the group. 
+# Biocomputing II Project
 
+## Members
+* Igor
+* Jurn Ho <jurn@magicmonster.com>
+* Semina Efstratiou
 
-to run hello.pl locally
-cd frontend/src/cgi
-PERL5LIB=../../../middle/src/perl/:../../../database/src/perl/   perl hello.pl
+## Requirements
+We have been assigned chromosome 16.
 
-genes that are missing gene name will not be loaded into our database
+[Requirements](http://www.bioinf.org.uk/teaching/bbk/biocomp2/project.html) are available from the
+ module's website
+
+[Raw data](http://www.bioinf.org.uk/teaching/bbk/biocomp2/data/chrom_CDS_16.gz) must be
+downloaded at parsed.
+
+## Installation
+This has only been tested on on `hope`, a server that is internal to Birkbeck
+crystallography.
+
+To run and populate the database,
+1. clone to repository
+2. run `./RUN_deploy_download_createDB_populdateDB`
+
+To work with an existing database:
+1. run `./deploy.sh`
+
+It is also possible to run scripts from the command line after setting up PERL5LIB. To do this:
+1. run `./perl_env.sh`
+
