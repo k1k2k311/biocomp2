@@ -20,14 +20,14 @@ my $sense_count = 1;
 # Open data file
 my $data_file = "database/src/chrom_CDS_16";
 chomp $data_file;
-my $file = open_file($data_file);
+my $file = Biocomp2::parser::open_file($data_file);
 
 
 # Split the genbank file in entries by genbank separator \\
-while ($entry = get_entry($file) ) {
+while ($entry = Biocomp2::parser::get_entry($file) ) {
 
 	# Split the entry in annotation, features and sequence
-	my ($annotation, $features, $sequence) = split_entry($entry);
+	my ($annotation, $features, $sequence) = Biocomp2::parser::split_entry($entry);
 
     # Marker new entry
 	print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n";
@@ -39,10 +39,10 @@ while ($entry = get_entry($file) ) {
 	#print $sequence;
 
  	# From annotation parse gene_ID, accesion version and locus 
-	my ($gene_ID, $acc_ver, $locus) = parse_annotation($annotation);
+	my ($gene_ID, $acc_ver, $locus) = Biocomp2::parser::parse_annotation($annotation);
 
 	# From features parse coordinates, complement, gene name, locus map, codon start, protein product and aminoacid seuqnce
-	my ($cordinates_ref, $complement, $gene, $map, $cod_start, $product, $protID, $aa) = parse_features($features);
+	my ($cordinates_ref, $complement, $gene, $map, $cod_start, $product, $protID, $aa) = Biocomp2::parser::parse_features($features);
 	# Dereference coordinates array
 	my @cordinates = @$cordinates_ref;
 	
