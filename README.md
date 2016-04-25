@@ -33,12 +33,11 @@ It is also possible to run scripts from the command line after setting up PERL5L
 1. run `./perl_env.sh`
 
 ## Usage
-The main page show a list of all the gene records on the selected chromosome. Just chose your favorite gene cliching on the hiperlink on your right to acces the gene details, sequence (with hightlighted coding regions), clonning strategies and codon usages. Any time to your go backward to return to the main page. 
+The main page show a list of all the gene records on the selected chromosome. Just chose your favorite gene clicking on the hyperlink on your left to access all the gene details, sequence (with highlighted coding regions), cloning strategies and codon usages. Any time you could go backward in you web browser to return to the main page.
 
-You could also seach on the database using the uper right corner search box. Seach will be performed on gene identifier, protein product name, locus map and accesion version. You will b
-get all the results that the query apears and then filter by cliching on your desire gene to get strategies to clone it.
+You could also search on the database using the uper right corner search box. Search will be performed on gene identifier, protein product name, locus map and accession version. You will obtain all the results that the query appears and then filter by clicking on your desire gene to get strategies to clone it.
 
-If you have any issue don hesitate to mail any of the developers. Happy browsing and clonning!!! 
+If you have any issue don't hesitate to mail any of the developers. Happy browsing and clonning!!! 
 
 
 ## Architecture
