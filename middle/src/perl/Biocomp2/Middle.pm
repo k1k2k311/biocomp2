@@ -34,11 +34,6 @@ sub search {
   return %genes;
 }
 
-sub get_all_genes {
-  my %gene_names = Biocomp2::DataAccess::get_gene_names();
-  return %gene_names;
-}
-
 sub get_genes {
   my %genes_db = Biocomp2::DataAccess::get_genes();
   # convert from hash of arrays to hash of hashes
